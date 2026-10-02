@@ -1,5 +1,5 @@
 # Build context: repository root.
-FROM node:24-slim AS build
+FROM node:26-slim AS build
 WORKDIR /src
 RUN npm install --global pnpm@11.19.0
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
