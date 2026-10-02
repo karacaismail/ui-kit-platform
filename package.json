@@ -10,6 +10,7 @@
     "build:storybook": "pnpm --filter @ui-kit/web build:storybook",
     "build": "pnpm --filter @ui-kit/web build",
     "check": "pnpm --filter @ui-kit/web check",
+    "lint": "python3 -m ruff check apps/api && python3 -m ruff format --check apps/api",
     "test": "pnpm --filter @ui-kit/web test && cd apps/api && python3 -m pytest tests"
   }
 }

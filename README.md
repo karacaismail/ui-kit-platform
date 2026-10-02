@@ -1,6 +1,6 @@
 # UI Kit platform
 
-Live: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/). Only the static frontend and Storybook are published there; the API is not deployed.
+Public demo: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/) (static frontend only; no Storybook, no API). Production target: `pen.atonota.net` on the Hetzner host, installed once with `deploy/install.sh` and updated automatically after every green push to `main`. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 Productionized from the supplied interactive design. The Astro frontend is complete and works without the API. Storybook uses the same production styles. FastAPI and PostgreSQL provide a deliberately small starting boundary for the later backend maturity plan.
 
@@ -34,7 +34,7 @@ Set `PUBLIC_SITE_URL` to the final HTTPS origin when building for deployment. Lo
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` runs on every push to `main`: type check, a build for the Pages path, the Playwright suite against that same output, then publication of `apps/web/dist`.
+`.github/workflows/pages.yml` runs on every push to `main`: a build for the Pages path without Storybook (`PUBLIC_STORYBOOK=off`, because Storybook is not public), the Playwright suite against that same output, then publication of `apps/web/dist`.
 
 Project Pages serve the site under `/ui-kit-platform/`, so the workflow sets `PUBLIC_BASE_PATH=/ui-kit-platform`. The page takes its script, stylesheet and Storybook addresses from that value. Leave `PUBLIC_BASE_PATH` unset for a root deployment such as `pen.atonota.net`. To reproduce the Pages build locally:
 
@@ -42,11 +42,33 @@ Project Pages serve the site under `/ui-kit-platform/`, so the workflow sets `PU
 PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform pnpm --filter @ui-kit/web test
 ```
 
+## CI and deployment
+
+`.github/workflows/ci.yml` runs on every push and pull request:
+
+| Job | Checks |
+| --- | --- |
+| `web` | `astro check`, production build, Playwright on Chromium, Firefox and WebKit |
+| `api` | `ruff check`, `ruff format --check`, `pytest` on Python 3.13 with the pinned `requirements.lock` |
+| `deploy-files` | `shellcheck` on `deploy/*.sh`, `docker compose config` |
+| `images` | builds both images, starts the production stack, runs `deploy/smoke.sh`; on `main` pushes `sha-<commit>` tags to GHCR |
+
+The server follows `main` and deploys a commit only after its images exist, so a red build is never deployed. CodeQL and Dependabot (actions, Python, Docker base images) run alongside. To run the production stack locally:
+
+```sh
+docker build -f deploy/web.Dockerfile -t ghcr.io/karacaismail/ui-kit-platform-web:ci .
+docker build -f deploy/api.Dockerfile -t ghcr.io/karacaismail/ui-kit-platform-api:ci .
+PEN_IMAGE_TAG=ci docker compose --env-file <your env file> -f deploy/compose.yaml up -d --wait
+deploy/smoke.sh http://127.0.0.1:<PEN_HTTP_PORT>
+```
+
+`deploy/.env.example` lists the variables. The Storybook password file must live in a directory the Colima profile mounts.
+
 No open source license has been chosen yet. Public visibility is not a license.
 
 ## API
 
-Create a virtual environment, install `apps/api[dev]`, then run:
+Create a virtual environment, install `-r apps/api/requirements.lock -e "apps/api[dev]"`, then run:
 
 ```sh
 python3 -m uvicorn app.main:app --reload --app-dir apps/api
@@ -69,6 +91,7 @@ On the first empty-volume startup, `apps/api/sql/001_initial.sql` creates the si
 
 ```sh
 pnpm check
+pnpm lint
 pnpm test
 ```
 

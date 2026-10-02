@@ -1,4 +1,4 @@
-name: Check and publish UI Kit
+name: Publish the public demo to GitHub Pages
 on:
   push:
     branches: [main]
@@ -16,6 +16,8 @@ env:
   # Project Pages serve the site under /<repository>/. Clear PUBLIC_BASE_PATH when a custom domain is attached.
   PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io
   PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+  # Pages is anonymous and Storybook is not public, so this build leaves Storybook out.
+  PUBLIC_STORYBOOK: "off"
 
 jobs:
   check:
@@ -30,10 +32,10 @@ jobs:
           node-version: 24
       - run: npm install --global pnpm@11.19.0
       - run: pnpm install --frozen-lockfile
-      - run: pnpm check
       - run: pnpm --filter @ui-kit/web exec playwright install --with-deps chromium firefox webkit
-      # Builds Storybook and Astro for the Pages path, then runs the browser suite against that same output.
-      - run: pnpm --filter @ui-kit/web test
+      # Builds Astro for the Pages path, then runs the browser suite against that same output.
+      - run: pnpm --filter @ui-kit/web exec astro build
+      - run: pnpm --filter @ui-kit/web exec playwright test
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: failure()
         with:

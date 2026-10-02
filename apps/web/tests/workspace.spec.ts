@@ -14,13 +14,24 @@ test('catalog opens an interactive component detail without browser errors', asy
   expect(pageErrors).toEqual([]);
 });
 
+const storybookPublished = process.env.PUBLIC_STORYBOOK !== 'off';
+
 test('Storybook is included in the production output', async ({ page }) => {
+  test.skip(!storybookPublished, 'This build leaves Storybook out.');
   await page.goto('./?page=catalog');
   const storybookUrl = await page.locator('.topnav a', { hasText: 'Storybook' }).evaluate((link: HTMLAnchorElement) => link.href);
   await page.goto(storybookUrl);
   await expect(page).toHaveTitle(/Storybook/);
   const index = await page.evaluate(async () => (await fetch('index.json')).json());
   expect(Object.keys(index.entries).length).toBeGreaterThanOrEqual(3);
+});
+
+test('a build without Storybook neither links to it nor ships it', async ({ page }) => {
+  test.skip(storybookPublished, 'This build includes Storybook.');
+  await page.goto('./?page=catalog');
+  await expect(page.locator('.topnav a', { hasText: 'Storybook' })).toHaveCount(0);
+  const response = await page.request.get('storybook/index.html');
+  expect(response.status()).toBe(404);
 });
 
 test('catalog filters are shareable and sidebar accordions stay exclusive', async ({ page }) => {

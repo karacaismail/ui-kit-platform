@@ -1,0 +1,52 @@
+# Production stack for one host. Values come from the env file written by deploy/install.sh.
+name: pen
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ui_kit
+      POSTGRES_USER: ui_kit
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ui_kit -d ui_kit"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ../apps/api/sql/001_initial.sql:/docker-entrypoint-initdb.d/001_initial.sql:ro
+
+  api:
+    image: ghcr.io/karacaismail/ui-kit-platform-api:${PEN_IMAGE_TAG:?}
+    restart: unless-stopped
+    environment:
+      UI_KIT_ENVIRONMENT: production
+      UI_KIT_DATABASE_URL: postgresql+psycopg://ui_kit:${POSTGRES_PASSWORD}@postgres:5432/ui_kit
+      UI_KIT_ALLOWED_ORIGINS: '["${PEN_ORIGIN:?}"]'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 5s
+      timeout: 4s
+      retries: 10
+
+  web:
+    image: ghcr.io/karacaismail/ui-kit-platform-web:${PEN_IMAGE_TAG:?}
+    restart: unless-stopped
+    ports:
+      # Loopback only. The host reverse proxy terminates TLS and forwards here.
+      - "127.0.0.1:${PEN_HTTP_PORT:?}:8080"
+    volumes:
+      - ${PEN_STORYBOOK_HTPASSWD:?}:/etc/nginx/storybook.htpasswd:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres:
