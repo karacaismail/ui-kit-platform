@@ -1,0 +1,11 @@
+---
+import type { InlineSegment } from '../reports/markdown.ts';
+
+interface Props {
+  segments: InlineSegment[];
+}
+
+const { segments } = Astro.props;
+---
+
+{segments.map(segment => (segment.code ? <code>{segment.text}</code> : segment.text))}

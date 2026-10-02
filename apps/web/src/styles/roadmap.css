@@ -1,27 +1,4 @@
-/* Roadmap page. Uses the documentation tokens from global.css; no values of its own. */
-.rm-top-link{display:inline-flex;align-items:center;min-height:var(--hit);padding-inline:var(--s3);font-size:var(--text-sm);color:var(--muted)}
-.rm-top-link:hover{color:var(--ink);background:var(--surface)}
-.roadmap{max-width:1180px;margin-inline:auto;padding:var(--s8) var(--gutter) var(--s16)}
-.roadmap p{color:var(--muted)}
-.rm-lead{margin-top:var(--s4);font-size:var(--text-lg);line-height:1.5;color:var(--ink)}
-.roadmap .rm-lead{color:var(--ink)}
-.rm-stats{display:flex;flex-wrap:wrap;gap:var(--s6) var(--s8);margin:var(--s8) 0 0}
-.rm-stats div{display:grid;gap:var(--s1)}
-.rm-stats dt{font:var(--text-xs)/1.5 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-.rm-stats dd{margin:0;font:500 var(--text-xl)/1.2 var(--mono)}
-.rm-section{margin-top:var(--s16);scroll-margin-top:calc(var(--header) + var(--s6))}
-.rm-section>h2{margin-top:var(--s2)}
-.rm-section>h2+p{margin-top:var(--s3)}
-.rm-section>p+.part-links{margin-top:var(--s4)}
-.rm-columns{display:grid;gap:var(--s8) var(--s8);grid-template-columns:repeat(auto-fit,minmax(min(100%,264px),1fr));margin:var(--s8) 0 0;padding:0;list-style:none}
-.rm-columns h3{margin-bottom:var(--s2)}
-.rm-columns p+p{margin-top:var(--s2)}
-.rm-columns .rm-ai{color:var(--ink)}
-.rm-columns .rm-ai b{font:var(--text-xs)/1.5 var(--mono);letter-spacing:.08em;color:var(--blue);margin-right:var(--s2)}
-.part-links{display:grid;gap:0;margin:var(--s6) 0 0;padding:0;list-style:none;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));column-gap:var(--s8)}
-.part-links a{display:flex;align-items:baseline;gap:var(--s3);min-height:var(--hit);padding-block:var(--s2)}
-.part-links a:hover,.phase-index a:hover{background:var(--surface)}
-.part-links .mono,.phase-index .mono,.part-code{font:var(--text-xs)/1.5 var(--mono);color:var(--muted);flex:none}
+/* Roadmap page parts. Shared report layout lives in reports.css; tokens come from global.css. */
 .phase-index{margin-top:var(--s16)}
 .phase-index ol{display:grid;margin:var(--s4) 0 0;padding:0;list-style:none}
 .phase-index a{display:flex;align-items:baseline;gap:var(--s3);min-height:var(--hit);padding:var(--s2) var(--s2)}

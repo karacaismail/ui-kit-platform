@@ -6,6 +6,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/web/package.json apps/web/
 RUN pnpm install --frozen-lockfile
 COPY apps/web apps/web
+# The report pages read their Markdown sources from docs/reports at build time.
+COPY docs/reports docs/reports
 # Canonical origin of the production site. The site is served from the domain root, so no base path.
 ARG PUBLIC_SITE_URL=https://pen.atonota.net
 ENV PUBLIC_SITE_URL=$PUBLIC_SITE_URL

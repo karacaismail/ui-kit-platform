@@ -1,0 +1,13 @@
+---
+import markdown from '../../../../docs/reports/gap-analysis.md?raw';
+import FindingsReport from '../components/FindingsReport.astro';
+import ReportLayout from '../layouts/ReportLayout.astro';
+import { gapReportFromMarkdown } from '../reports/gap.ts';
+import { FindingsReportViewModel } from '../reports/view-model.ts';
+
+const view = new FindingsReportViewModel(gapReportFromMarkdown(markdown));
+---
+
+<ReportLayout title="GAP analizi" description="Pen yol haritasının bağımsız GAP analizi ve her bulgunun nasıl ele alındığı." current="gap">
+  <FindingsReport view={view} />
+</ReportLayout>

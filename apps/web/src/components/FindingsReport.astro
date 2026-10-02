@@ -1,0 +1,197 @@
+---
+import { parseInline } from '../reports/markdown.ts';
+import type { FindingsReportViewModel } from '../reports/view-model.ts';
+import Inline from './Inline.astro';
+
+interface Props {
+  view: FindingsReportViewModel;
+}
+
+const { view } = Astro.props;
+const { report } = view;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const dataAttributes = (filter: Record<string, string>) =>
+  Object.fromEntries(Object.entries(filter).map(([key, value]) => [`data-${key}`, value]));
+---
+
+<p class="eyebrow">{report.eyebrow}</p>
+<h1>{report.title}</h1>
+<p class="rm-lead">{report.lead}</p>
+{report.source && <p class="report-source"><Inline segments={parseInline(report.source)} /></p>}
+<dl class="rm-stats">
+  {view.stats.map(stat => <div><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}
+</dl>
+
+{report.summary.length > 0 && (
+  <section class="rm-section" id="ozet" aria-labelledby="ozet-baslik">
+    <h2 id="ozet-baslik">Özet</h2>
+    <ul class="report-bullets">{report.summary.map(item => <li><Inline segments={parseInline(item)} /></li>)}</ul>
+  </section>
+)}
+
+{report.method.length > 0 && (
+  <section class="rm-section" id="yontem" aria-labelledby="yontem-baslik">
+    <h2 id="yontem-baslik">Yöntem</h2>
+    <ul class="report-bullets">{report.method.map(item => <li><Inline segments={parseInline(item)} /></li>)}</ul>
+  </section>
+)}
+
+{report.decisions.length > 0 && (
+  <section class="rm-section" id="kararlar" aria-labelledby="kararlar-baslik">
+    <p class="eyebrow">{report.decisions.length} konu</p>
+    <h2 id="kararlar-baslik">Sahibin kararını bekleyenler</h2>
+    <ol class="report-bullets">{report.decisions.map(item => <li><Inline segments={parseInline(item)} /></li>)}</ol>
+  </section>
+)}
+
+<section class="rm-section" id="bulgular" aria-labelledby="bulgular-baslik" data-findings data-facets={view.facets.map(facet => facet.key).join(',')}>
+  <h2 id="bulgular-baslik">Bulgular</h2>
+  <details class="facets" data-facet-bar hidden>
+    <summary>Filtrele <span class="facet-count" data-active></span></summary>
+    <div class="facets-body">
+    {view.facets.map(facet => (
+      <fieldset class="facet">
+        <legend>{facet.label}</legend>
+        <div class="segments">
+          <button type="button" data-facet={facet.key} data-value="" aria-pressed="true">Tümü</button>
+          {facet.options.map(option => (
+            <button type="button" data-facet={facet.key} data-value={option.value} aria-pressed="false">
+              {option.label} <span class="facet-count">{option.count}</span>
+            </button>
+          ))}
+        </div>
+      </fieldset>
+    ))}
+    <button type="button" class="facet-clear" data-clear>Filtreleri temizle</button>
+    </div>
+  </details>
+  <p id="findings-count" class="findings-count" role="status">{view.findings.length} bulgu gösteriliyor</p>
+  <p class="findings-count" data-empty hidden>Bu filtrelerle eşleşen bulgu yok.</p>
+  <ol class="findings">
+    {view.findings.map(finding => (
+      <li>
+        <article class="finding" id={finding.anchor} aria-labelledby={`${finding.anchor}-baslik`} {...dataAttributes(finding.filter)}>
+          <div class="finding-meta">
+            <span class="finding-id">{finding.id}</span>
+            <span class={`finding-priority p-${finding.priority}`}>{finding.priority}</span>
+            <span>{finding.group}</span>
+            {finding.filter.resolution && <span class={`badge resolution-${finding.resolution}`}>{finding.resolutionLabel}</span>}
+            {finding.tags.map(tag => <span class="badge">{tag}</span>)}
+          </div>
+          <h3 id={`${finding.anchor}-baslik`}><Inline segments={finding.title} /></h3>
+          {finding.body.length > 0 && <p><Inline segments={finding.body} /></p>}
+          {finding.resolutionNote.length > 0 && (
+            <p class="finding-outcome"><b>Ne yapıldı:</b> <Inline segments={finding.resolutionNote} /></p>
+          )}
+          {finding.links.length > 0 && (
+            <ul class="finding-links" aria-label="Yol haritasındaki karşılığı">
+              {finding.links.map(link => <li><a href={`${base}${link.href}`}>{link.label}</a></li>)}
+            </ul>
+          )}
+          {finding.details.length > 0 && (
+            <details>
+              <summary>{report.detailsLabel}</summary>
+              <dl>
+                {finding.details.map(detail => <div><dt>{detail.label}</dt><dd><Inline segments={detail.text} /></dd></div>)}
+              </dl>
+            </details>
+          )}
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>
+
+{report.stories.length > 0 && (
+  <section class="rm-section" id="senaryolar" aria-labelledby="senaryolar-baslik">
+    <h2 id="senaryolar-baslik">Pre-mortem senaryoları</h2>
+    <div class="stories">
+      {report.stories.map(story => (
+        <article>
+          <h3>{story.title}</h3>
+          <p><Inline segments={parseInline(story.text)} /></p>
+        </article>
+      ))}
+    </div>
+  </section>
+)}
+
+{report.tables.map((table, index) => (
+  <section class="rm-section" aria-labelledby={`tablo-${index}`}>
+    <h2 id={`tablo-${index}`}>{table.title}</h2>
+    <ul class="row-cards">
+      {table.rows.map(row => (
+        <li>
+          <dl>{table.columns.map((column, cell) => <div><dt>{column}</dt><dd><Inline segments={parseInline(row[cell] ?? '')} /></dd></div>)}</dl>
+        </li>
+      ))}
+    </ul>
+  </section>
+))}
+
+{(report.checked.length > 0 || report.notInspected.length > 0) && (
+  <section class="rm-section" id="kapsam" aria-labelledby="kapsam-baslik">
+    <h2 id="kapsam-baslik">Kapsam</h2>
+    <ul class="rm-columns">
+      <li>
+        <h3>Kontrol edilip sorun bulunmayanlar</h3>
+        <ul class="report-bullets">{report.checked.map(item => <li><Inline segments={parseInline(item)} /></li>)}</ul>
+      </li>
+      <li>
+        <h3>İncelenemeyenler</h3>
+        <ul class="report-bullets">{report.notInspected.map(item => <li><Inline segments={parseInline(item)} /></li>)}</ul>
+      </li>
+    </ul>
+  </section>
+)}
+
+<script>
+  import { type FilterState, matchesFilter, readFilterState, writeFilterState } from '../reports/filter.ts';
+
+  const root = document.querySelector<HTMLElement>('[data-findings]');
+  if (root) {
+    const keys = (root.dataset.facets ?? '').split(',').filter(Boolean);
+    const bar = root.querySelector<HTMLDetailsElement>('[data-facet-bar]')!;
+    const active = bar.querySelector<HTMLElement>('[data-active]')!;
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[data-facet]')];
+    const cards = [...root.querySelectorAll<HTMLElement>('article.finding')];
+    const count = root.querySelector<HTMLElement>('#findings-count')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const offered = (key: string, value: string) =>
+      buttons.some(button => button.dataset.facet === key && button.dataset.value === value);
+
+    let state: FilterState = readFilterState(location.search, keys);
+    for (const key of keys) if (!offered(key, state[key])) state[key] = '';
+
+    const apply = () => {
+      let shown = 0;
+      for (const card of cards) {
+        const match = matchesFilter(card.dataset, state);
+        card.parentElement!.hidden = !match;
+        if (match) shown += 1;
+      }
+      for (const button of buttons) {
+        button.setAttribute('aria-pressed', String(state[button.dataset.facet!] === button.dataset.value));
+      }
+      count.textContent = `${shown} bulgu gösteriliyor`;
+      const set = keys.filter(key => state[key]).length;
+      active.textContent = set > 0 ? `· ${set} etkin` : '';
+      empty.hidden = shown > 0;
+    };
+
+    bar.addEventListener('click', event => {
+      const target = (event.target as Element).closest('button');
+      if (!target) return;
+      state = target.hasAttribute('data-clear')
+        ? Object.fromEntries(keys.map(key => [key, '']))
+        : { ...state, [target.dataset.facet!]: target.dataset.value ?? '' };
+      history.replaceState(null, '', `${location.pathname}${writeFilterState(location.search, state)}${location.hash}`);
+      apply();
+    });
+
+    // Closed on narrow screens so the findings come first; open where there is room beside the list.
+    bar.open = matchMedia('(min-width: 1024px)').matches;
+    bar.hidden = false;
+    apply();
+  }
+</script>

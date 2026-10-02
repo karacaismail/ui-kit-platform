@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import '../styles/reports.css';
+
+interface Props {
+  title: string;
+  description: string;
+  current: 'roadmap' | 'gap' | 'unknowns';
+}
+
+const { title, description, current } = Astro.props;
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+// A report page exists only once its Markdown source is in docs/reports; link only to pages that exist.
+const reportFiles = Object.keys(import.meta.glob('../../../../docs/reports/*.md'));
+const hasReport = (file: string) => reportFiles.some(path => path.endsWith(`/${file}`));
+const links = [
+  { key: 'workspace', label: 'Çalışma alanı', href: `${base}?page=catalog` },
+  { key: 'roadmap', label: 'Yol haritası', href: `${base}roadmap/` },
+  { key: 'gap', label: 'GAP analizi', href: `${base}gap/` },
+  ...(hasReport('unknowns-analysis.md') ? [{ key: 'unknowns', label: 'Bilinmeyenler', href: `${base}unknowns/` }] : [])
+];
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101214" />
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <title>{title} — UI Kit</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">İçeriğe geç</a>
+    <header class="topbar report-topbar">
+      <a class="brand" href={base} aria-label="UI Kit ana sayfa">
+        <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>ui / kit</span>
+      </a>
+      <nav class="report-nav" aria-label="Raporlar">
+        {links.map(link => <a href={link.href} aria-current={link.key === current ? 'page' : undefined}>{link.label}</a>)}
+      </nav>
+    </header>
+    <main id="main" class="report" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>

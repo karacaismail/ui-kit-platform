@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import ReportLayout from '../layouts/ReportLayout.astro';
 import '../styles/roadmap.css';
 import { roadmap } from '../roadmap/data.ts';
 import { RoadmapViewModel } from '../roadmap/view-model.ts';
@@ -9,149 +9,125 @@ const totals = view.totals;
 const aiParts = view.partsWithTag('ai');
 const legacyParts = view.partsWithTag('legacy');
 const decisionParts = view.partsWithTag('decision');
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
-const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
-<!doctype html>
-<html lang="tr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#101214" />
-    <meta name="description" content="UI Kit platformunun PoC'den kurumsal olgunluğa fazlı geliştirme planı." />
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    <title>Yol haritası — UI Kit</title>
-  </head>
-  <body>
-    <a class="skip" href="#main">İçeriğe geç</a>
-    <header class="topbar">
-      <a class="brand" href={base} aria-label="UI Kit ana sayfa">
-        <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>ui / kit</span>
-      </a>
-      <span class="top-spacer"></span>
-      <a class="rm-top-link" href={`${base}?page=catalog`}>Çalışma alanı</a>
-    </header>
+<ReportLayout title="Yol haritası" description="UI Kit platformunun PoC'den kurumsal olgunluğa fazlı geliştirme planı." current="roadmap">
+  <p class="eyebrow">Geliştirme planı</p>
+  <h1>Yol haritası</h1>
+  <p class="rm-lead">{roadmap.vision}</p>
+  <dl class="rm-stats">
+    <div><dt>Faz</dt><dd>{totals.phases}</dd></div>
+    <div><dt>Parça</dt><dd>{totals.parts}</dd></div>
+    <div><dt>Tamam</dt><dd>{totals.done}</dd></div>
+    <div><dt>Sırada</dt><dd>{totals.next}</dd></div>
+    <div><dt>Planlı</dt><dd>{totals.planned}</dd></div>
+  </dl>
 
-    <main id="main" class="roadmap" tabindex="-1">
-      <p class="eyebrow">Geliştirme planı</p>
-      <h1>Yol haritası</h1>
-      <p class="rm-lead">{roadmap.vision}</p>
-      <dl class="rm-stats">
-        <div><dt>Faz</dt><dd>{totals.phases}</dd></div>
-        <div><dt>Parça</dt><dd>{totals.parts}</dd></div>
-        <div><dt>Tamam</dt><dd>{totals.done}</dd></div>
-        <div><dt>Sırada</dt><dd>{totals.next}</dd></div>
-        <div><dt>Planlı</dt><dd>{totals.planned}</dd></div>
-      </dl>
+  <section class="rm-section" id="gerekenler" aria-labelledby="gerekenler-baslik">
+    <p class="eyebrow">Vizyon için</p>
+    <h2 id="gerekenler-baslik">Vizyona ulaşmak için gerekenler</h2>
+    <ul class="rm-columns">
+      {roadmap.requirements.map(item => (
+        <li>
+          <h3>{item.title}</h3>
+          <p>{item.detail}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-      <section class="rm-section" id="gerekenler" aria-labelledby="gerekenler-baslik">
-        <p class="eyebrow">Vizyon için</p>
-        <h2 id="gerekenler-baslik">Vizyona ulaşmak için gerekenler</h2>
-        <ul class="rm-columns">
-          {roadmap.requirements.map(item => (
-            <li>
-              <h3>{item.title}</h3>
-              <p>{item.detail}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+  <section class="rm-section" id="personalar" aria-labelledby="personalar-baslik">
+    <p class="eyebrow">Hedef kitle</p>
+    <h2 id="personalar-baslik">Personalar ve AI ile verilecek değer</h2>
+    <ul class="rm-columns">
+      {roadmap.personas.map(persona => (
+        <li>
+          <h3>{persona.name}</h3>
+          <p>{persona.who}</p>
+          <p>{persona.need}</p>
+          <p class="rm-ai"><b>AI</b>{persona.ai}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-      <section class="rm-section" id="personalar" aria-labelledby="personalar-baslik">
-        <p class="eyebrow">Hedef kitle</p>
-        <h2 id="personalar-baslik">Personalar ve AI ile verilecek değer</h2>
-        <ul class="rm-columns">
-          {roadmap.personas.map(persona => (
-            <li>
-              <h3>{persona.name}</h3>
-              <p>{persona.who}</p>
-              <p>{persona.need}</p>
-              <p class="rm-ai"><b>AI</b>{persona.ai}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+  <section class="rm-section" id="ai" aria-labelledby="ai-baslik">
+    <p class="eyebrow">{aiParts.length} parça</p>
+    <h2 id="ai-baslik">Fazlara dağıtılan AI işleri</h2>
+    <ul class="part-links">
+      {aiParts.map(part => (
+        <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
+      ))}
+    </ul>
+  </section>
 
-      <section class="rm-section" id="ai" aria-labelledby="ai-baslik">
-        <p class="eyebrow">{aiParts.length} parça</p>
-        <h2 id="ai-baslik">Fazlara dağıtılan AI işleri</h2>
-        <ul class="part-links">
-          {aiParts.map(part => (
-            <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
-          ))}
-        </ul>
-      </section>
+  <section class="rm-section" id="eski-plan" aria-labelledby="eski-plan-baslik">
+    <p class="eyebrow">{legacyParts.length} parça</p>
+    <h2 id="eski-plan-baslik">Eski plandan (ComponentSocial) alınanlar</h2>
+    <ul class="part-links">
+      {legacyParts.map(part => (
+        <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
+      ))}
+    </ul>
+  </section>
 
-      <section class="rm-section" id="eski-plan" aria-labelledby="eski-plan-baslik">
-        <p class="eyebrow">{legacyParts.length} parça</p>
-        <h2 id="eski-plan-baslik">Eski plandan (ComponentSocial) alınanlar</h2>
-        <ul class="part-links">
-          {legacyParts.map(part => (
-            <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
-          ))}
-        </ul>
-      </section>
+  <section class="rm-section" id="kararlar" aria-labelledby="kararlar-baslik">
+    <p class="eyebrow">{decisionParts.length} parça</p>
+    <h2 id="kararlar-baslik">Karar bekleyenler</h2>
+    <p>Bu parçalar bir sahip kararı olmadan başlayamaz; ardından gelen işler onlara bağlıdır.</p>
+    <ul class="part-links">
+      {decisionParts.map(part => (
+        <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
+      ))}
+    </ul>
+  </section>
 
-      <section class="rm-section" id="kararlar" aria-labelledby="kararlar-baslik">
-        <p class="eyebrow">{decisionParts.length} parça</p>
-        <h2 id="kararlar-baslik">Karar bekleyenler</h2>
-        <p>Bu parçalar bir sahip kararı olmadan başlayamaz; ardından gelen işler onlara bağlıdır.</p>
-        <ul class="part-links">
-          {decisionParts.map(part => (
-            <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
-          ))}
-        </ul>
-      </section>
+  <div class="rm-layout">
+    <nav class="phase-index" aria-labelledby="fazlar-baslik">
+      <p class="eyebrow" id="fazlar-baslik">Fazlar</p>
+      <ol>
+        {view.phases.map(phase => (
+          <li>
+            <a href={`#${phase.anchor}`}>
+              <span class="mono">{phase.code}</span>
+              <span class="rm-name">{phase.name}</span>
+              <span class="rm-progress">{phase.progress.done}/{phase.progress.total}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
 
-      <div class="rm-layout">
-        <nav class="phase-index" aria-labelledby="fazlar-baslik">
-          <p class="eyebrow" id="fazlar-baslik">Fazlar</p>
-          <ol>
-            {view.phases.map(phase => (
-              <li>
-                <a href={`#${phase.anchor}`}>
-                  <span class="mono">{phase.code}</span>
-                  <span class="rm-name">{phase.name}</span>
-                  <span class="rm-progress">{phase.progress.done}/{phase.progress.total}</span>
-                </a>
+    <div class="phases">
+      {view.phases.map(phase => (
+        <section class="phase" id={phase.anchor} aria-labelledby={`${phase.anchor}-baslik`}>
+          <p class="eyebrow">{phase.code} · {phase.stage}</p>
+          <h2 id={`${phase.anchor}-baslik`}>{phase.name}</h2>
+          <p>{phase.goal}</p>
+          <dl class="phase-meta">
+            <div><dt>Çıkış ölçütü</dt><dd>{phase.exit}</dd></div>
+            <div><dt>Vibecoding notu</dt><dd>{phase.vibecoding}</dd></div>
+          </dl>
+          <ol class="parts">
+            {phase.parts.map(part => (
+              <li class="part" id={part.anchor}>
+                <span class="part-code">{part.code}</span>
+                <span class="part-status" data-status={part.status}>{part.statusLabel}</span>
+                <div class="part-body">
+                  <h3>{part.title}</h3>
+                  <p>{part.detail}</p>
+                  {part.tags.length > 0 && (
+                    <div class="part-tags">
+                      {part.tags.map(tag => <span class={`badge tag-${tag.key}`}>{tag.label}</span>)}
+                    </div>
+                  )}
+                </div>
               </li>
             ))}
           </ol>
-        </nav>
+        </section>
+      ))}
+    </div>
+  </div>
 
-        <div class="phases">
-          {view.phases.map(phase => (
-            <section class="phase" id={phase.anchor} aria-labelledby={`${phase.anchor}-baslik`}>
-              <p class="eyebrow">{phase.code} · {phase.stage}</p>
-              <h2 id={`${phase.anchor}-baslik`}>{phase.name}</h2>
-              <p>{phase.goal}</p>
-              <dl class="phase-meta">
-                <div><dt>Çıkış ölçütü</dt><dd>{phase.exit}</dd></div>
-                <div><dt>Vibecoding notu</dt><dd>{phase.vibecoding}</dd></div>
-              </dl>
-              <ol class="parts">
-                {phase.parts.map(part => (
-                  <li class="part" id={part.anchor}>
-                    <span class="part-code">{part.code}</span>
-                    <span class="part-status" data-status={part.status}>{part.statusLabel}</span>
-                    <div class="part-body">
-                      <h3>{part.title}</h3>
-                      <p>{part.detail}</p>
-                      {part.tags.length > 0 && (
-                        <div class="part-tags">
-                          {part.tags.map(tag => <span class={`badge tag-${tag.key}`}>{tag.label}</span>)}
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          ))}
-        </div>
-      </div>
-    </main>
-  </body>
-</html>
+</ReportLayout>
