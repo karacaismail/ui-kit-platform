@@ -39,12 +39,20 @@ const links = [
         <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <span>ui / kit</span>
       </a>
-      <nav class="report-nav" aria-label="Raporlar">
-        {links.map(link => <a href={link.href} aria-current={link.key === current ? 'page' : undefined}>{link.label}</a>)}
-      </nav>
     </header>
+    <nav class="report-nav" aria-label="Raporlar">
+      {links.map(link => <a href={link.href} aria-current={link.key === current ? 'page' : undefined}>{link.label}</a>)}
+    </nav>
     <main id="main" class="report" tabindex="-1">
       <slot />
     </main>
+    <script>
+      // On a narrow screen the menu scrolls sideways; start with the current page in view.
+      const menu = document.querySelector<HTMLElement>('.report-nav');
+      const current = menu?.querySelector<HTMLElement>('[aria-current="page"]');
+      if (menu && current && current.offsetLeft + current.offsetWidth > menu.clientWidth) {
+        menu.scrollLeft = current.offsetLeft - menu.clientWidth + current.offsetWidth + 16;
+      }
+    </script>
   </body>
 </html>

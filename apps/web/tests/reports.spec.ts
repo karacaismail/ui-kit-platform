@@ -115,3 +115,17 @@ test('unknowns filter by area and link to the roadmap phase', async ({ page }) =
   await page.locator('#uu-16').getByRole('link', { name: 'F0' }).click();
   await expect(page).toHaveURL(/roadmap\/#faz-0$/);
 });
+
+for (const path of ['./roadmap/', './gap/', './unknowns/']) {
+  test(`the report menu stays on screen while scrolling ${path}`, async ({ page }) => {
+    await page.goto(path);
+    const menu = page.getByRole('navigation', { name: 'Raporlar' });
+    await expect(menu.getByRole('link')).toHaveText(['Çalışma alanı', 'Yol haritası', 'GAP analizi', 'Bilinmeyenler']);
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    const box = await menu.boundingBox();
+    expect(box?.y ?? -1).toBeGreaterThanOrEqual(0);
+    expect(box?.y ?? Infinity).toBeLessThan(2);
+    await expect(menu.locator('[aria-current="page"]')).toBeInViewport();
+    await noSidewaysScroll(page);
+  });
+}

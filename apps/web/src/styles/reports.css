@@ -1,11 +1,12 @@
 /* Report pages (roadmap, GAP, unknowns). Uses the documentation tokens from global.css; no values of its own. */
-.report-topbar{flex-wrap:wrap;row-gap:0}
-.report-nav{display:flex;flex-wrap:wrap;flex-basis:100%;margin-inline:calc(var(--s3) * -1)}
-.report-nav a{display:inline-flex;align-items:center;min-height:var(--hit);padding-inline:var(--s3);font-size:var(--text-sm);color:var(--muted)}
+/* Brand row scrolls away; the report menu stays pinned to the top at every width. */
+.report-topbar{position:static}
+.report-nav{position:sticky;top:0;z-index:5;display:flex;overflow-x:auto;scrollbar-width:none;padding-inline:calc(var(--gutter) - var(--s3));background:var(--canvas);border-bottom:1px solid var(--quiet-line)}
+.report-nav::-webkit-scrollbar{display:none}
+.report-nav a{display:inline-flex;flex:none;align-items:center;min-height:var(--hit);padding-inline:var(--s3);font-size:var(--text-sm);white-space:nowrap;color:var(--muted)}
 .report-nav a:hover{color:var(--ink);background:var(--surface)}
 .report-nav a[aria-current=page]{color:var(--ink);box-shadow:inset 0 -2px var(--accent)}
-@media(max-width:767px){.report-topbar{position:static}}
-@media(min-width:768px){.report-nav{flex-basis:auto;margin-left:auto;margin-right:calc(var(--s3) * -1)}}
+.report-nav a:focus-visible{outline-offset:calc(var(--s1) * -1)}
 .report{max-width:1180px;margin-inline:auto;padding:var(--s8) var(--gutter) var(--s16)}
 .report p{color:var(--muted)}
 .rm-lead{margin-top:var(--s4);font-size:var(--text-lg);line-height:1.5;color:var(--ink)}
