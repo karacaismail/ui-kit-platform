@@ -8,6 +8,7 @@ const view = new RoadmapViewModel(roadmap);
 const totals = view.totals;
 const aiParts = view.partsWithTag('ai');
 const legacyParts = view.partsWithTag('legacy');
+const decisionParts = view.partsWithTag('decision');
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
@@ -88,6 +89,17 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         <h2 id="eski-plan-baslik">Eski plandan (ComponentSocial) alınanlar</h2>
         <ul class="part-links">
           {legacyParts.map(part => (
+            <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="rm-section" id="kararlar" aria-labelledby="kararlar-baslik">
+        <p class="eyebrow">{decisionParts.length} parça</p>
+        <h2 id="kararlar-baslik">Karar bekleyenler</h2>
+        <p>Bu parçalar bir sahip kararı olmadan başlayamaz; ardından gelen işler onlara bağlıdır.</p>
+        <ul class="part-links">
+          {decisionParts.map(part => (
             <li><a href={`#${part.anchor}`}><span class="mono">{part.code}</span><span>{part.title}</span></a></li>
           ))}
         </ul>

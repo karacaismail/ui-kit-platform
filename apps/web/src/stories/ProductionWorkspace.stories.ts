@@ -16,7 +16,8 @@ const meta = {
     const allowedRoutes = ['?page=home', '?page=catalog', '?page=component&component=button', '?page=guide'];
     const safeRoute = allowedRoutes.includes(route) ? route : '?page=catalog';
     const frame = element('<iframe class="production-story" title="Production UI Kit workspace"></iframe>') as HTMLIFrameElement;
-    frame.src = `/${safeRoute}`;
+    // Relative to the Storybook folder, so the story follows the site under any base path.
+    frame.src = `../${safeRoute}`;
     return frame;
   }
 } satisfies Meta<{ route: string }>;

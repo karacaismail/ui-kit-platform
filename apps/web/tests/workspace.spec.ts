@@ -23,6 +23,12 @@ test('Storybook is included in the production output', async ({ page }) => {
   expect(Object.keys(index.entries).length).toBeGreaterThanOrEqual(3);
 });
 
+test('the Storybook production story opens the workspace under the deployed path', async ({ page, baseURL }) => {
+  await page.goto('./storybook/iframe.html?id=documentation-production-workspace--live-application&viewMode=story');
+  const frameUrl = await page.locator('iframe.production-story').evaluate((frame: HTMLIFrameElement) => frame.src);
+  expect(frameUrl).toBe(`${baseURL}?page=catalog`);
+});
+
 test('catalog filters are shareable and sidebar accordions stay exclusive', async ({ page }) => {
   await page.goto('./?page=catalog');
   await page.getByRole('button', { name: 'Pro', exact: true }).click();

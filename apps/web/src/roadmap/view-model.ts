@@ -7,7 +7,8 @@ const TAG_LABELS: Record<PartTag, string> = {
   legacy: 'Eski plan',
   infra: 'Altyapı',
   quality: 'Kalite',
-  business: 'İş modeli'
+  business: 'İş modeli',
+  decision: 'Karar gerekli'
 };
 
 export interface TagView {

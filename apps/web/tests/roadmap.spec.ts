@@ -45,6 +45,7 @@ test('AI and carried-over items link to the part they describe', async ({ page }
   await first.click();
   await expect(page.locator(target!)).toBeInViewport();
   await expect(page.locator('#eski-plan .part-links a').first()).toBeVisible();
+  await expect(page.locator('#kararlar .part-links a').first()).toBeVisible();
 });
 
 test('roadmap links back to the component workspace', async ({ page }) => {

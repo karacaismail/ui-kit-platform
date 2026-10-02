@@ -105,6 +105,18 @@ export const roadmap: Roadmap = {
       ai: 'Değişiklik önerilerine otomatik ön inceleme, takım kurallarını bilen paylaşılan AI bağlamı, sağlayıcı politikası.'
     },
     {
+      name: 'Küratör / moderatör',
+      who: 'Tohum içeriği seçen, bildirimleri inceleyen ve kataloğun kalitesini koruyan kişi.',
+      need: 'Toplu içe aktarma, inceleme kuyruğu, hızlı kaldırma ve her işlemin kaydı.',
+      ai: 'Zararlı kod ve kopya için ön eleme, etiket ve açıklama taslağı, benzer içerik uyarısı.'
+    },
+    {
+      name: 'Platform işletim sorumlusu',
+      who: 'Sunucuyu, yayını ve güvenliği işleten DevOps mühendisi.',
+      need: 'Tek komutla kurulum, görünür yayın durumu, geri alma ve olay anında izlenecek adımlar.',
+      ai: 'Dar yetkili MCP araçlarıyla durum sorgulama; yayın ve silme kararları insanda kalır.'
+    },
+    {
       name: 'AI ajanı',
       who: 'Claude Code, Codex veya benzeri bir ajan; insan adına bileşen arar ve kullanır.',
       need: 'Makinece okunur katalog, kararlı adresler ve dar yetkili araçlar.',
@@ -123,19 +135,21 @@ export const roadmap: Roadmap = {
         'Kurallar AGENTS.md’de, kararlar karar.json’da. Ajan yalnız kapıdan geçen değişikliği yayınlayabilir; sunucuya doğrudan erişimi yoktur.',
       parts: [
         part('Etkileşimli tasarımın Astro’ya taşınması', 'Statik derlenen dokümantasyon kabuğu; API olmadan tam çalışır.', 'done'),
-        part('Bileşen kataloğu ve paylaşılabilir filtreler', '25 bileşen; kategori, Free/Pro, deneysel ve cihaz filtreleri adres çubuğunda tutulur.', 'done'),
+        part('Bileşen kataloğu ve paylaşılabilir filtreler', '26 bileşen; deneysel olan varsayılan görünümde gizlidir. Kategori, Free/Pro, deneysel ve cihaz filtreleri adres çubuğunda tutulur.', 'done'),
         part('Düzenlenebilir kod ve yalıtılmış önizleme', 'Kod değişince önizleme yenilenir; iframe yalnız allow-scripts ile çalışır ve ağa çıkamaz.', 'done', ['quality']),
         part('Görünüm modları', 'Teknik kartta dark, light ve accessibility temaları.', 'done'),
         part('Klavye ile komut araması', 'Ctrl/⌘ K ile açılan, odağı sahiplenen arama.', 'done'),
         part('Storybook', 'Üretim tokenlarını ve stillerini doğrudan kullanan hikâyeler; erişilebilirlik eklentisi açık.', 'done'),
         part('FastAPI ve PostgreSQL başlangıç sınırı', 'Sağlık uçları ve boş /api/components ucu; alan modeli bilinçli olarak ertelendi.', 'done', ['infra']),
-        part('Tarayıcı testleri', 'Chromium, Firefox ve WebKit; 320 pikselden 1440 piksele beş profil.', 'done', ['quality']),
+        part('Tarayıcı testleri', 'Chromium, Firefox ve WebKit; 320, 390 ve 1440 piksel genişlikte beş profil. Tam kabul matrisi F1’dedir.', 'done', ['quality']),
         part('GitHub Pages demosu', 'Alt dizin altında çalışan herkese açık demo; site ve Storybook birlikte.', 'done', ['infra']),
-        part('CI: lint, tip denetimi, testler, imaj ve duman testi', 'Kapılar geçmeden imaj yayınlanmaz; CodeQL ve Dependabot yanında çalışır.', 'done', ['infra', 'quality']),
-        part('Tek seferlik kurulum betiği ve çekme tabanlı yayın', 'Sunucudaki zamanlayıcı main’i izler; sağlıksız sürümde öncekine döner. GitHub’da sunucu sırrı yoktur.', 'done', ['infra']),
+        part('CI: tip denetimi, testler, imaj ve duman testi', 'Python için lint ve biçim denetimi, web için tip denetimi ve testler. Kapılar geçmeden imaj yayınlanmaz; CodeQL ve Dependabot yanında çalışır.', 'done', ['infra', 'quality']),
+        part('Kurulum paketi ve çekme tabanlı yayın kodu', 'Kurulum betiği, güncelleme döngüsü ve geri dönüş mantığı hazır ve CI’da sınanıyor. Canlıda çalıştığı, sunucu kurulumu tamamlanınca kanıtlanır.', 'done', ['infra']),
         part('Yol haritası sayfası', 'Bu sayfa. Plan kodla aynı repoda durur ve aynı kapılardan geçer.', 'done'),
-        part('Sunucuda ilk kurulum, DNS ve TLS', 'Kurulum betiğinin Hetzner’de bir kez çalıştırılması ve pen.atonota.net’in yönlendirilmesi.', 'next', ['infra']),
-        part('Açık kaynak lisansının seçilmesi', 'Repo herkese açık ama lisanssız; katkı ve yeniden kullanım için lisans gerekir.', 'next', ['business'])
+        part('Sunucuda ilk kurulum, DNS ve TLS', 'Kurulum betiğinin Hetzner’de bir kez çalıştırılması, pen.atonota.net’in yönlendirilmesi ve canlıda zamanlayıcı, geri dönüş ve duman testinin kabulü.', 'next', ['infra']),
+        part('Açık kaynak lisansının seçilmesi', 'Repo herkese açık ama lisanssız; katkı ve yeniden kullanım için lisans gerekir.', 'next', ['business', 'decision']),
+        part('Karar kayıtlarının uzlaştırılması', 'İki ayrı karar.json ayrışmış durumda. Tek kayıt bağlayıcı olmalı; herkese açık demo Storybook ile korunan beta/RC çıktılarının sınırı tek kararla yazılmalı.', 'next', ['decision']),
+        part('Yol haritası bağımlılık ve kabul modeli', 'Parçalara sahip, bağımlılık ve kabul kanıtı alanları eklenir; sıra ve “tamam” iddiası veriden doğrulanır.')
       ]
     },
     {
@@ -143,25 +157,33 @@ export const roadmap: Roadmap = {
       stage: 'MVP öncesi',
       name: 'Sözleşmeler ve tek kaynak',
       goal: 'Elle yazılmış katalog verisini şemalı tek kaynağa taşımak ve çalışma zamanını çoklu framework’e hazırlamak.',
-      exit: 'Yeni bileşen eklemek tek bir tanım dosyası ve bir Markdown dosyası yazmaktır; katalog, arama ve önizleme bundan üretilir.',
+      exit: 'Tek komut yeni bileşenin metadata, Markdown, manifest, önizleme ve test iskeletini üretir; katalog, arama ve önizleme bu kaynaktan derlenir ve kabul matrisi geçer.',
       vibecoding:
         'Her parça tek değişiklik isteği ve önce başarısız testtir. Şema bir kez yazılır; ajan bileşen eklerken iframe, bundler veya mesajlaşma ayrıntısına dokunmaz.',
       parts: [
-        part('Bileşen metadata şeması', 'Her bileşen için şema doğrulamalı TypeScript tanımı ve aynı kimliğe bağlı Markdown içerik.', 'next'),
+        part('Bileşen metadata şeması', 'Her bileşen için şema doğrulamalı TypeScript tanımı ve aynı kimliğe bağlı Markdown içerik. Yetkili kaynak budur.', 'next'),
         part('Monorepo paket sınırları', 'content-schema, example-runtime, design-tokens ve testing paketleri; tek yönlü bağımlılık.'),
-        part('Mevcut 25 bileşenin şemaya taşınması', 'Elle yazılmış veri dosyasındaki katalog, davranış değişmeden yeni kaynağa aktarılır.'),
-        part('Dosya içi metadata’dan katalog üretimi', 'Bileşen bilgisini dosyanın başındaki yorumdan okuyan tarayıcı; elle tutulan liste yok.', 'planned', ['legacy']),
-        part('Önizleme motoru, katman 1', 'Sucrase ve esm.sh import map ile WASM indirmeden anında önizleme. Eski projede çalıştığı kanıtlandı.', 'planned', ['legacy']),
-        part('Monaco editörün koşullu yüklenmesi', 'Editör yalnız düzenleme başladığında indirilir; ilk açılış paketi büyümez.'),
-        part('Framework adaptörleri: React, Vue, Web Components', 'Framework başına bir iframe şablonu; sayfa ile postMessage üzerinden konuşur.', 'planned', ['legacy']),
+        part('Mevcut 26 bileşenin şemaya taşınması', 'Elle yazılmış veri dosyalarındaki katalog, davranış değişmeden yeni kaynağa aktarılır.'),
+        part('Metadata dosyalarının taranmasıyla katalog üretimi', 'Katalog TypeScript tanımlarından derlenir; elle tutulan liste yoktur. Eski plandaki dosya içi yorum fikri, ikinci bir kaynak yaratmamak için bu biçimde alındı.', 'planned', ['legacy']),
+        part('Bileşen üreteci ve örnek manifesti', 'Tek komut metadata, Markdown, platformdan bağımsız örnek manifesti ve test iskeletini üretir.'),
+        part('Derlenmiş kanonik önizleme', 'Bileşen sayfası açıldığında derleme sırasında hazırlanmış önizleme hemen görünür; çalışma zamanı beklenmez.'),
+        part('Monaco ve WebContainer’ın koşullu yüklenmesi', 'Canlı düzenleme katmanı yalnız kullanıcı düzenlemeye niyet ettiğinde ve yalnız o örneğin adaptörüyle indirilir.'),
+        part('Hafif önizleme katmanı kararı', 'Eski projede Sucrase ve esm.sh ile WASM indirmeden anında önizleme çalıştı. Karar kaydı WebContainer’ı seçti; hafif katmanın eklenmesi yeni karar gerektirir.', 'planned', ['legacy', 'decision']),
+        part('Framework adaptör sözleşmesi', 'React, Vue, Angular, Web Components ve three.js. Listelenmek destek demek değildir; her adaptör sürüm, derleme, önizleme ve test kanıtı taşır.', 'planned', ['legacy']),
+        part('Editör–önizleme durum makinesi', 'Gecikmeli uygulama, derleme durumları, eski sonucun yeni kodu ezmemesi, son başarılı önizleme, sıfırlama ve erişilebilir hata paneli.', 'planned', ['quality']),
         part('Önizlemenin ayrı origin’e taşınması', 'Kullanıcı kodu uygulamanın çerezlerine ve depolamasına hiçbir koşulda erişemez.', 'planned', ['legacy', 'quality']),
-        part('İstemci tarafı arama indeksi', 'Derleme sırasında üretilen indeks; API anahtarı veya dış servis gerekmez.'),
-        part('Kalıcı ve okunur adresler', 'Bileşen, bölüm ve framework anlamlı yol parçalarıyla ifade edilir; iç kimlik adrese çıkmaz.'),
+        part('Güvenilmeyen kod için tehdit modeli ve kaynak sınırları', 'İşlemci, bellek ve süre kotası, ağ çıkış listesi, sır ve disk yalıtımı, kötü niyetli paket senaryosu. Bu geçmeden çoklu framework açılmaz.', 'planned', ['quality']),
+        part('Arama indeksi', 'Fuse.js ile istemci tarafında; indeks derleme sırasında metadata ve Markdown’dan üretilir, boyutu ölçülür ve büyüdükçe parçalı yüklenir.'),
+        part('Kalıcı adresler, canonical ve yapılandırılmış veri', 'Okunur ve kararlı yollar; filtre adresleri için canonical ve noindex kuralı; arama motorları için yapılandırılmış veri.'),
+        part('Çok dile hazır route ve içerik sözleşmesi', 'Dil öneki, yedek dil, canonical ve hreflang kuralları ilk sürümden tanımlıdır; çevirinin kendisi sonraya kalır.'),
+        part('Route envanteri, dosya sahipliği ve sürüm sabitleme politikası', 'Hangi sayfanın, modülün ve bağımlılığın kime ait olduğu ve sürümlerin nasıl sabitlendiği yazılıdır.'),
         part('Uyumluluk kanıtının metadata’ya bağlanması', 'Bir kombinasyon yalnız bağlı test kanıtı varsa “supported” görünür; kanıtsız olan “not tested” kalır.', 'planned', ['quality']),
         part('Görsel regresyon ve axe kapıları', 'Sabit ortamda deterministik ekran karşılaştırması ve otomatik erişilebilirlik kontrolü.', 'planned', ['quality']),
-        part('Performans bütçesi', 'Aktarılan bayt ve ilk etkileşim süresi profil başına ölçülür; aşan değişiklik birleşmez.', 'planned', ['quality']),
+        part('Frontend lint ve biçim kapısı', 'TypeScript, JavaScript ve CSS için lint ve biçim denetimi; yerelde ve CI’da aynı komut.', 'planned', ['quality']),
+        part('Tarayıcı ve cihaz kabul matrisi', '320, 360, 375, 390, yatay telefon, tablet ve bölünmüş ekran. Gerçek macOS Safari, iOS Safari ve Android Chrome emülasyondan ayrı raporlanır.', 'planned', ['quality']),
+        part('Performans bütçesi', 'İlk sayfa, kanonik önizleme ve canlı editör aktarımları ayrı ölçülür; aşan değişiklik birleşmez.', 'planned', ['quality']),
         part('Ajanlar için makinece okunur çıktı', 'Her bileşen için JSON manifest ve site kökünde llms.txt; ajan kataloğu kazımadan okur.', 'planned', ['ai']),
-        part('Şema göçü aracı ve sunucu dışı yedek', 'Veritabanı değişiklikleri sürümlü göçlerle uygulanır; yedek başka bir yerde tutulur.', 'planned', ['infra']),
+        part('Şema göçü, sunucu dışı yedek ve ilk geri yükleme provası', 'Göçler sürümlüdür; yedek başka yerde tutulur ve kullanıcı verisi gelmeden önce bir kez geri yüklenerek sınanır.', 'planned', ['infra']),
         part('Marka tokenlarının kesinleştirilmesi', 'Nötr koyu kimlik tek bir token setine bağlanır; referans alınan temalar kopyalanmaz.')
       ]
     },
@@ -170,26 +192,34 @@ export const roadmap: Roadmap = {
       stage: 'MVP',
       name: 'Storybook’tan Pen’e hat ve paylaşılabilir bileşen',
       goal: 'Storybook’ta onaylanan bileşenin kendiliğinden Pen’de yayınlanması ve her bileşenin tek adresle paylaşılabilmesi.',
-      exit: 'Storybook RC’ye terfi eden bir bileşen, elle adım olmadan Pen kataloğunda görünür ve /s/ adresiyle paylaşılır.',
+      exit: 'Storybook RC’ye terfi eden bir bileşen, elle adım olmadan Pen kataloğunda görünür ve paylaşılır; aynı yayın iki kez gönderildiğinde katalog değişmez ve başarısız yayın uyarı üretir.',
       vibecoding:
         'Yayın köprüsü dar yetkili tek araçtır; ajan serbest komut çalıştırmaz. Her yayın idempotenttir, bu yüzden ajan aynı işi iki kez gönderse de sonuç değişmez.',
       parts: [
+        part('Backend olgunluk düzeyi ve yayın alan modeli onayı', 'Proje sözleşmesi nihai alan şemasını onaysız yasaklıyor. Manifest, sürüm ve yayın işlemi modeli onaylanmadan bu fazın backend işleri başlamaz.', 'planned', ['decision']),
+        part('Sürümleme temeli', 'Paketler SemVer 2.0 kullanır; onda bir ölçekli ürün etiketi ayrı alanda tutulur ve yayın manifestinde eşlenir.'),
         part('Bileşen yayın manifesti', 'Kimlik, sürüm, commit, sağlama toplamı, framework, tema ve uyumluluk bilgisini bağlayan tek belge.'),
+        part('İmzalı artefakt ve köken doğrulaması', 'Yayın yalnız doğrulanmış commit, manifest ve özet eşleşmesiyle kabul edilir; güvenilmeyen derleme sır taşıyan ortamda çalışmaz.', 'planned', ['infra', 'quality']),
+        part('Yayın servisi kimliği ve anahtar rotasyonu', 'Yayın hattının kendi dar yetkili kimliği vardır; kullanıcı girişinden bağımsızdır ve anahtarı yenilenebilir.', 'planned', ['infra']),
         part('FastAPI yayın alma ucu', 'Kimliği doğrulanmış, idempotent yayın; aynı manifest ikinci kez gelirse kopya oluşmaz.', 'planned', ['infra']),
-        part('Kataloğun API’den beslenmesi', '/api/components veritabanından okur; site API’ye ulaşamazsa statik veriye döner.'),
-        part('Storybook RC terfisi ile otomatik yayın', 'Onaylı sürüm iki değişmez çıktı üretir: Storybook sitesi ve bileşen kaynak paketi.', 'planned', ['infra']),
-        part('Storybook beta ortamı', 'Deneysel derleme; Pen’e yayın tetiklemez.'),
+        part('Kalıcı yayın işi ve worker', 'MCP bir iş kuyruğu değildir. Durum, yeniden deneme sınırı, iptal, zaman aşımı, yeniden başlatma sonrası kurtarma ve işlem kaydı.', 'planned', ['infra']),
+        part('Kataloğun API’den beslenmesi', '/api/components veritabanından okur; site API’ye ulaşamazsa statik veriye döner. Bulunamayan bileşen ve kapalı API için açık geri bildirim.'),
+        part('Korunan Storybook beta ortamı', '/sbbeta: deneysel derleme. Anonim erişim reddedilir; Pen’e yayın tetiklemez.', 'planned', ['infra']),
+        part('Korunan Storybook RC ortamı ve terfi', '/sbrc: sınanmış ve açıkça terfi ettirilmiş sürüm. Anonim erişimin ve arka kapı portunun reddi kabul testidir.', 'planned', ['infra']),
+        part('RC terfisi ile otomatik Pen yayını', 'Onaylı sürüm iki değişmez çıktı üretir: Storybook sitesi ve bileşen kaynak paketi.', 'planned', ['infra']),
         part('Yayın geri alma ve sürüm koruması', 'Geç gelen veya eski sürümlü yayın kataloğu geriletmez; başarısız yayın Pen’i değiştirmez.'),
         part('MCP yayın köprüsü', 'components.sync_release adlı tek araç; yayın için her seferinde dil modeli gerekmez.', 'planned', ['ai', 'infra']),
-        part('Kısa paylaşım adresi', '/s/<kimlik> biçiminde, kalıcı ve kopyalanabilir adres.', 'planned', ['legacy']),
+        part('Asgari gözlemlenebilirlik', 'Yayın metriği, yapılandırılmış kayıt, uyarının birine ulaşması ve olay anında izlenecek adımlar.', 'planned', ['infra']),
+        part('Kısa paylaşım adresi', '/s/<kimlik>. Okunur kalıcı adresin yerine geçmez; kimliğin okunur mu, opak mı olacağı karar gerektirir.', 'planned', ['legacy', 'decision']),
         part('Gömme rotası', 'Başka sitelerin çerçeveleyebileceği önizleme; frame izinleri yalnız bu rotada açılır.', 'planned', ['legacy']),
         part('Katalog kartlarında canlı mini önizleme', 'Ekran görüntüsü yerine çalışan küçük önizleme; görünür olduğunda yüklenir.', 'planned', ['legacy']),
         part('Çok dosyalı bileşen', 'Birden çok dosya ve framework alanı ilk günden veri modelinde.', 'planned', ['legacy']),
-        part('Dışa aktarım', 'Kopyala, .zip indir ve harici playground’a anahtarsız gönder.'),
+        part('Dışa aktarım ve anahtarsız playground adaptörleri', 'Kopyala ve .zip indir; StackBlitz zorunlu, CodePen uygun örneklerde, CodeSandbox doğrulanmış yöntem varsa. Hepsi aynı örnek manifestinden.'),
+        part('Küratör için sınırlı içe aktarma', 'Tohum içeriği taşımak için GitHub deposu ve ZIP içe aktarma; yalnız küratöre açık.', 'planned', ['legacy']),
         part('Tohum içerik', 'Küratör hesabıyla ilk 100 bileşen; eski animasyon arşivinden seçilenler dahil.', 'planned', ['legacy', 'business']),
+        part('Asgari AI geçidi', 'İlk AI özelliğinden önce: kullanım ölçümü, kota ve modele giden verinin süzülmesi.', 'planned', ['ai']),
         part('İlk AI özelliği: Açıkla', 'Seçili kodu sade dille anlatır. Kod çalıştırmaz, yalnız okur.', 'planned', ['ai', 'legacy']),
-        part('Gizlilik dostu temel ölçüm', 'Hangi bileşenin açıldığı ve kopyalandığı; kişisel veri toplamadan.', 'planned', ['business']),
-        part('Hata ve boş durum sayfaları', 'Bulunamayan bileşen, kapalı API ve derleme hatası için açık geri bildirim.', 'planned', ['quality'])
+        part('Gizlilik dostu temel ölçüm', 'Hangi bileşenin açıldığı ve kopyalandığı; kişisel veri toplamadan.', 'planned', ['business'])
       ]
     },
     {
@@ -197,20 +227,25 @@ export const roadmap: Roadmap = {
       stage: 'MVP sonrası · X',
       name: 'Hesaplar ve kendi çalışman',
       goal: 'Ziyaretçiyi üreticiye çevirmek: kaydetme, sürüm, fork ve içe aktarma.',
-      exit: 'Bir kullanıcı giriş yapar, bir bileşeni çatallar, değiştirir, kaydeder ve özel tutabilir.',
+      exit: 'Bir kullanıcı giriş yapar, bir bileşeni çatallar, değiştirir ve kaydeder; yetkisiz istek her uçta reddedilir ve bildirilen içerik kaldırılabilir.',
       vibecoding:
         'Yetki kuralı tek yerde yazılır ve her uç için “yetkisiz istek reddedilir” testi vardır. Ajan yeni uç eklerken bu testi yazmadan kapıdan geçemez.',
       parts: [
-        part('Kimlik doğrulama', 'OIDC ve GitHub ile giriş. Sağlayıcı seçimi karar gerektirir; eski projede Keycloak kurulumu sürekli sorun çıkardı.', 'planned', ['legacy']),
+        part('Kimlik sağlayıcısı ve hesap yaşam döngüsü kararı', 'Sağlayıcı, oturum süresi, hesap bağlama, iptal ve kurtarma. Eski projede Keycloak kurulumu sürekli sorun çıkardı.', 'planned', ['legacy', 'decision']),
+        part('Görünürlük ve plan matrisi kararı', 'Özel taslak Free’de var mı, özel proje yalnız Pro mu; kota, paylaşım ve erişim farkları.', 'planned', ['business', 'decision']),
+        part('Kimlik doğrulama', 'OIDC ve GitHub ile giriş.', 'planned', ['legacy']),
+        part('Gizlilik bildirimi ve veri yaşam döngüsü', 'Hangi verinin toplandığı, ne kadar saklandığı ve nasıl silindiği; hesap açılmadan önce yayında.', 'planned', ['business']),
+        part('Kullanıcı içeriği lisansı ve kullanım koşulları', 'Paylaşılan kodun lisansı ilk yayından önce açıkça seçilir ve koşullar kabul edilir.', 'planned', ['business']),
         part('Kendi snippet’ini kaydetme', 'Taslak ve yayınlanmış durum; sahibi dışında kimse düzenleyemez.', 'planned', ['legacy']),
+        part('Yayın öncesi zararlı kod taraması', 'Kullanıcı içeriği herkese açılmadan önce temel otomatik tarama; eski projede hiç yoktu.', 'planned', ['quality']),
+        part('Bildirme, acil kaldırma ve telif itirazı', 'Kullanıcı bildirimi, hızlı kaldırma, telif talebi ve itiraz süreci; tekrar ihlal kuralı.', 'planned', ['quality']),
         part('Her kayıtta sürüm geçmişi', 'Sürüm tüm dosyaları saklar. Eski projede yalnız tek dosya saklanıyor, çok dosyalı geçmiş kayboluyordu.', 'planned', ['legacy']),
         part('Fork ve soy bilgisi', 'Çatal; dosyaları, framework’ü ve kaynağını taşır.', 'planned', ['legacy']),
         part('Görünürlüğün her uçta zorlanması', 'Özel içerik okuma, fork ve gömme uçlarında da denetlenir.', 'planned', ['legacy', 'quality']),
         part('Profil sayfası', 'Kullanıcının herkese açık çalışmaları ve çatalları.', 'planned', ['legacy']),
-        part('İçe aktarma köprüsü', 'GitHub deposu, ZIP, Gist ve CodePen’den içe aktarma.', 'planned', ['legacy']),
+        part('Genel içe aktarma köprüsü', 'Her kullanıcı için GitHub deposu, ZIP, Gist ve CodePen’den içe aktarma.', 'planned', ['legacy']),
         part('Hız sınırı ve kötüye kullanım koruması', 'Okuma ve yazma için ayrı sınırlar.', 'planned', ['infra']),
         part('Veri dışa aktarma ve hesap silme', 'KVKK ve GDPR için kullanıcının kendi verisini alması ve silmesi.', 'planned', ['legacy']),
-        part('Kullanıcı içeriği lisansı ve kullanım koşulları', 'Paylaşılan kodun hangi lisansla sunulduğu kayıt sırasında açıkça seçilir.', 'planned', ['business']),
         part('İşlemsel e-postalar', 'Doğrulama, parola ve güvenlik bildirimleri.'),
         part('Yönetim paneli, ilk sürüm', 'Kullanıcı, içerik ve işlem kaydı.', 'planned', ['legacy'])
       ]
@@ -220,11 +255,15 @@ export const roadmap: Roadmap = {
       stage: 'MVP sonrası · Y',
       name: 'AI çalışma arkadaşı',
       goal: 'AI’yi süs değil, bileşen üretme ve uyarlama işinin parçası yapmak.',
-      exit: 'Kullanıcı bir prompt ile bileşen üretir, hatasını düzelttirir ve başka bir framework’e çevirtir; her çağrı ölçülür.',
+      exit: 'Kullanıcı bir prompt ile bileşen üretir, hatasını düzelttirir ve başka bir framework’e çevirtir. Her çağrı ölçülür; değerlendirme setinin geçme eşiği ve çağrı başına maliyet tavanı karar kaydında sayıyla yazılıdır ve sağlanır.',
       vibecoding:
         'AI özellikleri değerlendirme setiyle gelir: sabit girdiler, beklenen özellikler ve geçme eşiği. Model veya prompt değişikliği bu setten geçmeden birleşmez.',
       parts: [
-        part('AI geçidi', 'Sağlayıcıdan bağımsız tek giriş; kullanım ölçümü ve kullanıcı başına kota.', 'planned', ['ai', 'legacy']),
+        part('AI sağlayıcı ve veri politikası kararı', 'Varsayılan model ve sağlayıcı; kullanıcı kodunun sağlayıcıya gönderilmesi, saklanması ve eğitimde kullanılmaması; kalite ve maliyet eşikleri.', 'planned', ['ai', 'decision']),
+        part('Değerlendirme temeli ve kalite kapısı', 'AI çıktıları sabit örneklerle ve saldırgan girdilerle sınanır; gerileme birleşmeyi durdurur. Her yeni özellik kendi örneklerini ekler.', 'planned', ['ai', 'quality']),
+        part('AI güvenlik sınırı', 'Üretilen kod yalnız sandbox’ta çalışır; modele sır, ortam değişkeni veya başka kullanıcının verisi gitmez. Prompt enjeksiyonu senaryoları sınanır.', 'planned', ['ai', 'quality']),
+        part('AI veri yönetişimi ve çıktı hakları', 'Sağlayıcıya giden alanlar, saklama süresi, kullanıcı rızası, silme talebi ve üretilen kodun lisansı.', 'planned', ['ai', 'business']),
+        part('Çoklu sağlayıcı geçidi ve plan bazlı kota', 'F2’deki asgari geçit sağlayıcıdan bağımsız hale gelir; kota kullanıcı ve plan başına uygulanır.', 'planned', ['ai', 'legacy']),
         part('Yerel model varsayılanı ve kendi anahtarını getir', 'Anahtarlar sunucuda gerçek anahtar yönetimiyle şifrelenir; tarayıcıya hiç gitmez.', 'planned', ['ai', 'legacy']),
         part('Düzelt', 'Konsol hatasından yama önerisi; değişiklik fark olarak gösterilir, kullanıcı onaylar.', 'planned', ['ai', 'legacy']),
         part('Prompt’tan bileşen üretimi', 'Çıktı şemaya uygun bir bileşen taslağıdır ve yalnız sandbox’ta çalışır.', 'planned', ['ai', 'legacy']),
@@ -235,9 +274,7 @@ export const roadmap: Roadmap = {
         part('Anlamsal arama', 'Ne yaptığını tarif ederek bulma ve “buna benzer” önerisi.', 'planned', ['ai']),
         part('Otomatik etiket ve açıklama taslağı', 'Yayın öncesi etiket, açıklama ve kullanım notu önerisi; yazar onaylar.', 'planned', ['ai']),
         part('Prompt olarak kopyala', 'Bileşeni, kurallarını ve bağımlılıklarını Claude Code veya Codex’e verilecek bağlam paketi olarak kopyalar.', 'planned', ['ai']),
-        part('AI Smart Paste', 'Yapıştırılan kodun framework’ünü ve bağımlılıklarını tanır.', 'planned', ['ai', 'legacy']),
-        part('Değerlendirme seti ve kalite kapısı', 'AI çıktıları sabit örneklerle sınanır; gerileme birleşmeyi durdurur.', 'planned', ['ai', 'quality']),
-        part('AI güvenlik sınırı', 'Üretilen kod yalnız sandbox’ta çalışır; modele sır, ortam değişkeni veya başka kullanıcının verisi gitmez.', 'planned', ['ai', 'quality'])
+        part('AI Smart Paste', 'Yapıştırılan kodun framework’ünü ve bağımlılıklarını tanır.', 'planned', ['ai', 'legacy'])
       ]
     },
     {
@@ -245,7 +282,7 @@ export const roadmap: Roadmap = {
       stage: 'MVP sonrası · Z',
       name: 'Topluluk ve keşif',
       goal: 'Üretilen içeriğin bulunmasını ve üreticilerin geri gelmesini sağlamak.',
-      exit: 'Yeni bir ziyaretçi arama motorundan bir bileşene gelir, benzerlerini keşfeder ve bir üreticiyi takip eder.',
+      exit: 'Keşif hunisi (arama motoru → bileşen → benzer bileşen → takip) ölçülür ve karar kaydında sayıyla yazılı hedef oranları sağlar.',
       vibecoding:
         'Sosyal özellikler çekirdek döngü sağlamlaştıktan sonra gelir. Her özellik için ölçülecek davranış önceden yazılır; ölçülmeyen özellik eklenmez.',
       parts: [
@@ -258,10 +295,10 @@ export const roadmap: Roadmap = {
         part('Meydan okumalar', 'Haftalık veya aylık konu ve gönderimler; içerik ve geri dönüş motoru.', 'planned', ['legacy']),
         part('Fork ağacı ve itibar', 'Bir bileşenin türevlerinin görsel soyağacı.', 'planned', ['legacy']),
         part('Sunucu tarafı arama', 'PostgreSQL tam metin ve trigram; ayrı arama motoru gerekene kadar yeterli.', 'planned', ['legacy']),
-        part('Arama motoru iniş sayfaları', '/component/<framework>/<ad> biçiminde, her bileşen için dizine eklenebilir sayfa.', 'planned', ['legacy', 'business']),
+        part('Büyüme amaçlı iniş sayfaları', '/component/<framework>/<ad> biçiminde konu sayfaları; teknik SEO temeli F1’de kuruludur.', 'planned', ['legacy', 'business']),
         part('Karşılaştırma görünümü', 'İki bileşeni yan yana açma.', 'planned', ['legacy']),
-        part('Bildirme ve moderasyon kuyruğu', 'Kullanıcı bildirimi, inceleme kuyruğu ve işlem kaydı.', 'planned', ['quality']),
-        part('Zararlı kod taraması', 'Yayın öncesi otomatik tarama ve AI ile ön eleme; eski projede hiç yoktu.', 'planned', ['ai', 'quality']),
+        part('Gelişmiş moderasyon kuyruğu', 'F3’teki bildirme ve kaldırmanın üzerine: önceliklendirme, moderatör rolleri ve işlem kaydı.', 'planned', ['quality']),
+        part('AI ile ön eleme', 'Zararlı kod, kopya ve istenmeyen içerik için AI destekli ön eleme; karar moderatörde kalır.', 'planned', ['ai', 'quality']),
         part('Paylaşım kartları', 'Bağlantı paylaşıldığında bileşenin önizleme görseli.')
       ]
     },
@@ -274,6 +311,7 @@ export const roadmap: Roadmap = {
       vibecoding:
         'Plan sınırları veri olarak tutulur ve tek yerde denetlenir. Ödeme akışı sağlayıcının test moduyla uçtan uca sınanmadan canlıya çıkmaz.',
       parts: [
+        part('Ödeme sağlayıcısı, satış coğrafyası ve vergi modeli kararı', 'Sağlayıcı, satıcı sorumluluğu, satış yapılacak ülkeler ve iade sahipliği.', 'planned', ['business', 'decision']),
         part('Free/Pro anlamının yetkiye bağlanması', 'Bugün kilit yalnız arayüzde; kod erişimi sunucuda denetlenmeli.', 'planned', ['business']),
         part('Plan tablosu ve tek noktadan denetim', 'Sınırlar kodda değil veride; tek bir denetim katmanı.', 'planned', ['legacy']),
         part('Abonelik ödemesi', 'Ödeme, müşteri portalı ve webhook.', 'planned', ['legacy', 'business']),
@@ -304,8 +342,7 @@ export const roadmap: Roadmap = {
         part('Sayfada durumlar ve kontroller', 'Storybook tarzı prop ve durum denetimleri bileşen sayfasında.', 'planned', ['legacy']),
         part('Genel API ve API anahtarları', 'Belgelenmiş, sürümlü ve hız sınırlı API.'),
         part('Webhook’lar', 'Yayın, fork ve yorum olayları.'),
-        part('Ek framework adaptörleri', 'Angular, Svelte, Alpine ve three.js.'),
-        part('WebContainer katmanı', 'Tam Node çalışma zamanı gerektiren örnekler için; yalnız gerektiğinde yüklenir.', 'planned', ['legacy']),
+        part('Ek framework adaptörleri', 'Svelte, Alpine ve talep edilen diğerleri; her biri kendi kanıtıyla.'),
         part('Tek tıkla yayın', 'Bileşeni statik sayfa olarak barındırma.', 'planned', ['legacy'])
       ]
     },
@@ -356,18 +393,18 @@ export const roadmap: Roadmap = {
       stage: 'Maturity',
       name: 'Olgunluk',
       goal: 'Platformu ölçülebilir, dayanıklı ve sürdürülebilir kılmak.',
-      exit: 'Bir arıza uyarıyla fark edilir, yedekten geri dönülür ve sonuç ölçümlerle doğrulanır; hiçbiri tek kişinin hafızasına bağlı değildir.',
+      exit: 'Arıza uyarıyla fark edilir ve yedekten dönülür; kurtarma süresi, veri kaybı sınırı ve uyarı teslim süresi karar kaydında sayıyla yazılıdır ve provada sağlanır.',
       vibecoding:
         'Olgunluk bir faz kadar bir alışkanlıktır: her fazın çıkışında bu listeden ilgili parçalar yeniden sınanır.',
       parts: [
-        part('Gözlemlenebilirlik', 'Metrik, iz ve uyarı; yayın başarısızlığı kayıtta kalmaz, haber verilir.', 'planned', ['infra']),
-        part('Geri yükleme provası ve felaket kurtarma', 'Yedekten dönüş düzenli olarak denenir.', 'planned', ['infra']),
+        part('Dağıtık izleme ve kapasite uyarıları', 'F2’deki asgari gözlemlenebilirliğin üzerine: uçtan uca iz, kapasite eşikleri ve eğilim raporu.', 'planned', ['infra']),
+        part('Düzenli geri yükleme provası ve felaket senaryosu', 'İlk prova F1’de yapılır; burada takvime bağlanır ve tam kayıp senaryosu denenir.', 'planned', ['infra']),
         part('Yedekli mimari', 'Tek sunucudan birden çok örneğe geçiş.', 'planned', ['infra']),
         part('Sürekli performans ölçümü', 'Bütçeler gerçek kullanıcı verisiyle izlenir.', 'planned', ['quality']),
-        part('Çok dilli içerik', 'Ana dil İngilizce; route ve içerik sistemi çok dile hazır.'),
-        part('Bağımsız erişilebilirlik denetimi', 'Otomatik kontrolün ötesinde, gerçek yardımcı teknolojilerle.', 'planned', ['quality']),
-        part('Gerçek cihaz test matrisi', 'iOS Safari, Android ve hedef cihazlar emülasyondan ayrı raporlanır.', 'planned', ['quality']),
-        part('Sürümleme ve kullanımdan kaldırma politikası', 'SemVer 2.0; kırıcı değişiklik önceden duyurulur.'),
+        part('Çeviri kapsamının genişletilmesi', 'Sözleşme F1’de hazır; burada gerçek çeviriler ve dil başına kalite denetimi gelir.'),
+        part('Periyodik bağımsız erişilebilirlik denetimi', 'Otomatik kontrolün ötesinde, gerçek yardımcı teknolojilerle ve düzenli aralıkla.', 'planned', ['quality']),
+        part('Periyodik gerçek cihaz matrisi', 'İlk kabul F1’dedir; burada her sürüm öncesi yinelenir.', 'planned', ['quality']),
+        part('Sürümleme politikasının yönetişimi', 'Temel F2’de kuruludur; burada kullanımdan kaldırma takvimi ve duyuru süreci gelir.'),
         part('AI kalite ve maliyet yönetişimi', 'Model değişikliklerinin kalite ve maliyet etkisi düzenli raporlanır.', 'planned', ['ai']),
         part('Topluluk yönetişimi', 'Katkı rehberi, davranış kuralları ve yol haritasına geri bildirim.'),
         part('Maliyet ve kapasite planı', 'Barındırma, AI ve depolama maliyetinin kullanıcı başına izlenmesi.', 'planned', ['business']),

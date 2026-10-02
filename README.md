@@ -2,7 +2,7 @@
 
 Public demo: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/) (static frontend and Storybook; no API). Production target: `pen.atonota.net` on the Hetzner host, installed once with `deploy/install.sh` and updated automatically after every green push to `main`. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
-Development plan: [roadmap](https://karacaismail.github.io/ui-kit-platform/roadmap/). Its content lives in `apps/web/src/roadmap/data.ts`; the view-model rejects a phase with fewer than 3 or more than 24 parts, so the build fails on an invalid plan.
+Development plan: [roadmap](https://karacaismail.github.io/ui-kit-platform/roadmap/). Its content lives in `apps/web/src/roadmap/data.ts`; the view-model rejects a phase with fewer than 3 or more than 24 parts, so the build fails on an invalid plan. The independent gap analysis of the plan and how each finding was handled: [docs/roadmap-gap-analysis.md](docs/roadmap-gap-analysis.md).
 
 Productionized from the supplied interactive design. The Astro frontend is complete and works without the API. Storybook uses the same production styles. FastAPI and PostgreSQL provide a deliberately small starting boundary for the later backend maturity plan.
 

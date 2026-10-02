@@ -1,6 +1,6 @@
 export type PartStatus = 'done' | 'next' | 'planned';
 
-export type PartTag = 'ai' | 'legacy' | 'infra' | 'quality' | 'business';
+export type PartTag = 'ai' | 'legacy' | 'infra' | 'quality' | 'business' | 'decision';
 
 export interface RoadmapPart {
   title: string;

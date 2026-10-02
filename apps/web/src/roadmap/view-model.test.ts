@@ -76,6 +76,13 @@ test('collects the parts carrying a tag in plan order with a readable label', ()
   assert.equal(view.phases[0].parts[0].statusLabel, 'Planlı');
 });
 
+test('labels a part that waits for an owner decision', () => {
+  const view = new RoadmapViewModel(plan([phase('poc', [part('a', { tags: ['decision'] }), part('b'), part('c')])]));
+
+  assert.deepEqual(view.partsWithTag('decision').map(item => item.code), ['F0.01']);
+  assert.equal(view.phases[0].parts[0].tags[0].label, 'Karar gerekli');
+});
+
 test('the published roadmap satisfies its own rules', () => {
   const view = new RoadmapViewModel(roadmap);
 
@@ -85,5 +92,6 @@ test('the published roadmap satisfies its own rules', () => {
   }
   assert.ok(view.partsWithTag('ai').length > 0);
   assert.ok(view.partsWithTag('legacy').length > 0);
-  assert.ok(roadmap.personas.length >= 3);
+  assert.ok(view.partsWithTag('decision').length > 0);
+  assert.ok(roadmap.personas.length >= 8);
 });
