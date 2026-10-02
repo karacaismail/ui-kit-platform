@@ -103,7 +103,7 @@ test('unknowns report shows every unknown with its scenarios and early warnings'
   await noSidewaysScroll(page);
 });
 
-test('unknowns filter by area and link to the roadmap phase', async ({ page }) => {
+test('unknowns filter by area and link to the roadmap part', async ({ page }) => {
   await page.goto('./unknowns/');
   await openFilters(page);
   await page.getByRole('button', { name: /^İşletim/ }).click();
@@ -112,8 +112,10 @@ test('unknowns filter by area and link to the roadmap phase', async ({ page }) =
   expect(shown).toBeGreaterThan(0);
   expect(shown).toBeLessThan(25);
 
-  await page.locator('#uu-16').getByRole('link', { name: 'F0' }).click();
-  await expect(page).toHaveURL(/roadmap\/#faz-0$/);
+  // Worked into the plan, so the unknown points at the part that answers it.
+  await page.locator('#uu-16').getByRole('link', { name: 'F0.18' }).click();
+  await expect(page).toHaveURL(/roadmap\/#f0-18$/);
+  await expect(page.locator('#f0-18')).toContainText('Sağlık ucunun gerçek durumu bildirmesi');
 });
 
 for (const path of ['./roadmap/', './gap/', './unknowns/']) {

@@ -9,6 +9,8 @@ const totals = view.totals;
 const aiParts = view.partsWithTag('ai');
 const legacyParts = view.partsWithTag('legacy');
 const decisionParts = view.partsWithTag('decision');
+const stepCount = view.tiers.reduce((count, tier) => count + tier.steps.length, 0);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <ReportLayout title="Yol haritası" description="UI Kit platformunun PoC'den kurumsal olgunluğa fazlı geliştirme planı." current="roadmap">
@@ -22,6 +24,43 @@ const decisionParts = view.partsWithTag('decision');
     <div><dt>Sırada</dt><dd>{totals.next}</dd></div>
     <div><dt>Planlı</dt><dd>{totals.planned}</dd></div>
   </dl>
+
+  <section class="rm-section" id="oncelik" aria-labelledby="oncelik-baslik">
+    <p class="eyebrow">{view.tiers.length} kademe · {stepCount} adım</p>
+    <h2 id="oncelik-baslik">Öncelik sırası</h2>
+    <p>Fazlar neyin yapılacağını, bu sıra neyin önce yapılacağını söyler. Her kademe bir kapıyla kapanır; hiçbir kademede olmayan parçalar lansmandan sonra faz sırasıyla gelir.</p>
+    <ol class="tiers">
+      {view.tiers.map((tier, index) => (
+        <li class="tier" id={`kademe-${tier.key}`}>
+          <p class="eyebrow">{index + 1}. kademe</p>
+          <h3>{tier.name}</h3>
+          <p class="tier-gate"><b>Kapı:</b> {tier.gate}</p>
+          <ol class="steps">
+            {tier.steps.map(step => (
+              <li class="step">
+                <span class="step-number" aria-hidden="true">{step.number}</span>
+                <div class="step-body">
+                  <h4>{step.title}</h4>
+                  <p>{step.why}</p>
+                  <p class="step-owners">{step.owners.join(' · ')}</p>
+                  <ul class="part-links" aria-label="Parçalar">
+                    {step.parts.map(item => (
+                      <li><a href={`#${item.anchor}`}><span class="mono">{item.code}</span><span>{item.title}</span></a></li>
+                    ))}
+                  </ul>
+                  {step.sources.length > 0 && (
+                    <ul class="finding-links" aria-label="Kaynak bulgular">
+                      {step.sources.map(source => <li><a href={`${base}${source.href}`}>{source.id}</a></li>)}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </li>
+      ))}
+    </ol>
+  </section>
 
   <section class="rm-section" id="gerekenler" aria-labelledby="gerekenler-baslik">
     <p class="eyebrow">Vizyon için</p>
@@ -116,8 +155,9 @@ const decisionParts = view.partsWithTag('decision');
                 <div class="part-body">
                   <h3>{part.title}</h3>
                   <p>{part.detail}</p>
-                  {part.tags.length > 0 && (
+                  {(part.tags.length > 0 || part.tier) && (
                     <div class="part-tags">
+                      {part.tier && <span class="badge tier-badge">{part.tier}</span>}
                       {part.tags.map(tag => <span class={`badge tag-${tag.key}`}>{tag.label}</span>)}
                     </div>
                   )}

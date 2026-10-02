@@ -36,3 +36,18 @@
   .phase-index .rm-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .rm-layout>.phases>.phase:first-child{margin-top:var(--s16)}
 }
+.tiers{display:grid;gap:var(--s12);margin:var(--s8) 0 0;padding:0;list-style:none}
+.tier h3{margin-top:var(--s2);font-size:var(--text-xl)}
+.tier-gate{margin-top:var(--s3)}
+.tier-gate b{color:var(--ink);font-weight:550}
+.steps{margin:var(--s6) 0 0;padding:0;list-style:none}
+/* Row separators work like a table grid: they keep the step order readable. */
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s3);padding-block:var(--s6);border-top:1px solid var(--quiet-line)}
+.step-number{min-width:2ch;font:500 var(--text-xl)/1.2 var(--mono);color:var(--accent)}
+@media(min-width:768px){.step{gap:var(--s6)}}
+.step-body{display:grid;gap:var(--s3);min-width:0}
+.step-body h4{font-size:var(--text-lg);line-height:1.4}
+.step-owners{font:var(--text-xs)/1.5 var(--mono);color:var(--muted)}
+.step .part-links{margin-top:0}
+.badge.tier-badge{color:var(--ink);background:var(--raised)}
+.badge.tag-marketing{color:var(--accent)}

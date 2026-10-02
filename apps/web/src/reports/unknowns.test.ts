@@ -101,7 +101,29 @@ test('the published report has the expected shape', async () => {
   assert.equal(real.findings.length, 25);
   assert.ok(real.findings.every(item => /^UU-\d{2}$/.test(item.id) && ['P0', 'P1', 'P2'].includes(item.priority)));
   assert.ok(real.findings.every(item => item.links.length > 0), 'every unknown points at a roadmap phase');
+  assert.ok(real.findings.every(item => item.resolution !== 'open'), 'every unknown is worked into the roadmap');
   assert.equal(real.stories.length, 5);
   assert.deepEqual(real.tables.map(table => table.rows.length), [12, 18]);
   assert.match(real.source, /Codex CLI/);
+});
+
+test('a mapping table marks how each unknown was handled and links the roadmap parts', () => {
+  const mapped = unknownsReportFromMarkdown(
+    fixture.replace(
+      '## Yöntem',
+      `## Bulguların karşılığı
+
+| Bulgu | Durum | Yol haritasındaki karşılığı |
+|---|---|---|
+| UU-01 | Plana eklendi | F0.17 Son yeşil sürümün kurulması |
+| UU-02 | Plana eklendi, bir karar bekliyor | F0.20 Tek seferlik alan adı ve origin planı |
+
+## Yöntem`
+    )
+  );
+  const [first, second] = mapped.findings;
+  assert.equal(first.resolution, 'resolved');
+  assert.equal(second.resolution, 'partial');
+  assert.equal(first.resolutionNote, 'F0.17 Son yeşil sürümün kurulması');
+  assert.deepEqual(first.links, [{ label: 'F0.17', href: 'roadmap/#f0-17' }]);
 });

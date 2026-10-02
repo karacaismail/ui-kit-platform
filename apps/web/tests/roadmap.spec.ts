@@ -53,3 +53,21 @@ test('roadmap links back to the component workspace', async ({ page }) => {
   await page.getByRole('link', { name: 'Çalışma alanı' }).click();
   await expect(page.locator('.component-card').first()).toBeVisible();
 });
+
+test('priority order shows four gated tiers whose steps link to parts and findings', async ({ page }) => {
+  await page.goto('./roadmap/');
+  const order = page.locator('#oncelik');
+  await expect(order.locator('.tier h3')).toHaveText(['Kritik', 'Olmazsa olmaz', 'Önemli', 'Pazarlanabilirlik']);
+  await expect(order.locator('.tier-gate')).toHaveCount(4);
+  await expect(order.locator('.step').first().locator('.step-number')).toHaveText('1');
+
+  await order.locator('.step').first().getByRole('link', { name: /Son yeşil sürümün kurulması/ }).click();
+  await expect(page).toHaveURL(/#f0-17$/);
+  await expect(page.locator('#f0-17')).toBeInViewport();
+  await expect(page.locator('#f0-17 .tier-badge')).toHaveText('Kritik');
+
+  await page.goto('./roadmap/');
+  await order.locator('.step').first().getByRole('link', { name: 'UU-15' }).click();
+  await expect(page).toHaveURL(/unknowns\/#uu-15$/);
+  await expect(page.locator('#uu-15')).toBeInViewport();
+});

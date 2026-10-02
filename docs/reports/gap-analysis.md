@@ -4,7 +4,7 @@ Tarih: 2 Ekim 2026. Analiz Codex CLI (`gpt-5.6-sol`, salt okunur) tarafından co
 
 ## Bulguların karşılığı
 
-Parça kodları bu düzeltmeden sonraki yol haritasına aittir; Codex'in raporundaki kodlar düzeltme öncesi sıraya göredir.
+Parça kodları yol haritasının güncel haline göre tutulur; bir parça yer değiştirdiğinde test bu tabloyu düzeltilmeye zorlar. Codex'in raporundaki kodlar ise analiz anındaki sıraya göredir.
 
 | Bulgu | Durum | Yol haritasındaki karşılığı |
 |---|---|---|
@@ -20,7 +20,7 @@ Parça kodları bu düzeltmeden sonraki yol haritasına aittir; Codex'in raporun
 | GAP-10 | Plana eklendi | F1.05 Bileşen üreteci ve örnek manifesti; F1 çıkış ölçütü güncellendi |
 | GAP-11 | Plana eklendi | F1.10 Editör–önizleme durum makinesi |
 | GAP-12 | Plana eklendi | F1.15 Çok dile hazır route ve içerik sözleşmesi; F10.05 Çeviri kapsamının genişletilmesi |
-| GAP-13 | Plana eklendi | F1.14 Kalıcı adresler, canonical ve yapılandırılmış veri; F5.10 Büyüme amaçlı iniş sayfaları |
+| GAP-13 | Plana eklendi | F1.14 Kalıcı adresler, canonical ve yapılandırılmış veri; F5.19 Büyüme amaçlı iniş sayfaları |
 | GAP-14 | Plana eklendi | F1.16 Route envanteri, dosya sahipliği ve sürüm sabitleme politikası |
 | GAP-15 | Plana eklendi | F1.12 Güvenilmeyen kod için tehdit modeli ve kaynak sınırları |
 | GAP-16 | Karar bekliyor | F2.01 Backend olgunluk düzeyi ve yayın alan modeli onayı |

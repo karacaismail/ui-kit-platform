@@ -74,7 +74,7 @@ test('adds the resolution facet and stats when findings carry a resolution', () 
   assert.deepEqual(view.facets.map(facet => facet.key), ['priority', 'group', 'resolution']);
   assert.deepEqual(
     view.stats.map(stat => [stat.label, stat.value]),
-    [['Bulgu', 3], ['P0', 1], ['P1', 2], ['P2', 0], ['Çözüldü', 1], ['Kısmen', 1], ['Karar bekliyor', 1]]
+    [['Bulgu', 3], ['P0', 1], ['P1', 2], ['P2', 0], ['Plana işlendi', 1], ['Kısmen', 1], ['Karar bekliyor', 1]]
   );
   assert.deepEqual(view.findings[0].filter, { priority: 'P0', group: 'eksik-parca', resolution: 'decision' });
   assert.equal(view.findings[0].resolutionLabel, 'Karar bekliyor');

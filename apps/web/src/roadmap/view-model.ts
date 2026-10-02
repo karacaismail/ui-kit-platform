@@ -1,4 +1,4 @@
-import type { PartStatus, PartTag, Roadmap, RoadmapPart, RoadmapPhase } from './model.ts';
+import type { PartStatus, PartTag, PriorityTier, Roadmap, RoadmapPart, RoadmapPhase } from './model.ts';
 
 const STATUS_LABELS: Record<PartStatus, string> = { done: 'Tamam', next: 'Sırada', planned: 'Planlı' };
 
@@ -8,7 +8,8 @@ const TAG_LABELS: Record<PartTag, string> = {
   infra: 'Altyapı',
   quality: 'Kalite',
   business: 'İş modeli',
-  decision: 'Karar gerekli'
+  decision: 'Karar gerekli',
+  marketing: 'Pazarlama'
 };
 
 export interface TagView {
@@ -24,6 +25,24 @@ export interface PartView {
   status: PartStatus;
   statusLabel: string;
   tags: TagView[];
+  /** Name of the priority tier that schedules this part, if any. */
+  tier?: string;
+}
+
+export interface StepView {
+  number: number;
+  title: string;
+  why: string;
+  owners: string[];
+  sources: { id: string; href: string }[];
+  parts: { code: string; anchor: string; title: string }[];
+}
+
+export interface TierView {
+  key: string;
+  name: string;
+  gate: string;
+  steps: StepView[];
 }
 
 export interface PhaseView {
@@ -52,10 +71,47 @@ export class RoadmapViewModel {
   static readonly MAX_PARTS = 24;
 
   readonly phases: PhaseView[];
+  readonly tiers: TierView[];
 
   constructor(roadmap: Roadmap) {
     RoadmapViewModel.validate(roadmap);
     this.phases = roadmap.phases.map((phase, index) => RoadmapViewModel.toPhaseView(phase, index));
+    this.tiers = this.buildTiers(roadmap.priorities);
+  }
+
+  private buildTiers(priorities: readonly PriorityTier[]): TierView[] {
+    const byTitle = new Map(this.phases.flatMap(phase => phase.parts).map(item => [item.title, item]));
+    const scheduled = new Set<string>();
+    let number = 0;
+    return priorities.map(tier => ({
+      key: tier.key,
+      name: tier.name,
+      gate: tier.gate,
+      steps: tier.steps.map(step => {
+        number += 1;
+        return {
+          number,
+          title: step.title,
+          why: step.why,
+          owners: [...step.owners],
+          sources: step.sources.map(id => RoadmapViewModel.toSource(id)),
+          parts: step.parts.map(title => {
+            const found = byTitle.get(title);
+            if (!found) throw new Error(`Priority step "${step.title}" names a missing part "${title}".`);
+            if (scheduled.has(title)) throw new Error(`Part "${title}" is scheduled more than once.`);
+            scheduled.add(title);
+            found.tier = tier.name;
+            return { code: found.code, anchor: found.anchor, title: found.title };
+          })
+        };
+      })
+    }));
+  }
+
+  private static toSource(id: string): { id: string; href: string } {
+    const match = /^(GAP|UU)-\d{2}$/.exec(id);
+    if (!match) throw new Error(`Unknown finding id "${id}".`);
+    return { id, href: `${match[1] === 'GAP' ? 'gap' : 'unknowns'}/#${id.toLowerCase()}` };
   }
 
   get totals(): RoadmapTotals {
@@ -76,6 +132,11 @@ export class RoadmapViewModel {
 
   private static validate(roadmap: Roadmap): void {
     if (roadmap.phases.length === 0) throw new Error('A roadmap needs at least one phase.');
+    const titles = new Set<string>();
+    for (const item of roadmap.phases.flatMap(phase => phase.parts)) {
+      if (titles.has(item.title)) throw new Error(`Part title "${item.title}" is used more than once.`);
+      titles.add(item.title);
+    }
     const seen = new Set<string>();
     for (const phase of roadmap.phases) {
       if (seen.has(phase.key)) throw new Error(`Phase key "${phase.key}" is used more than once.`);

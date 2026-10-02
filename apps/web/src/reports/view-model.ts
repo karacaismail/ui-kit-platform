@@ -5,7 +5,7 @@ const PRIORITIES: readonly Priority[] = ['P0', 'P1', 'P2'];
 const RESOLUTIONS: readonly Exclude<Resolution, 'open'>[] = ['resolved', 'partial', 'decision'];
 const RESOLUTION_LABELS: Record<Resolution, string> = {
   open: 'Açık',
-  resolved: 'Çözüldü',
+  resolved: 'Plana işlendi',
   partial: 'Kısmen',
   decision: 'Karar bekliyor'
 };

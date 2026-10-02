@@ -1,6 +1,38 @@
 # Bilinmeyen bilinmeyenler analizi
 
-Tarih: 2 Ekim 2026. Analiz Codex CLI (`gpt-5.6-sol`, çok ajanlı mod, salt okunur) tarafından commit `45ae541` üzerinde yapıldı; rapor bu paragraf dışında değiştirilmeden duruyor. Bulgular henüz yol haritasına işlenmedi.
+Tarih: 2 Ekim 2026. Analiz Codex CLI (`gpt-5.6-sol`, çok ajanlı mod, salt okunur) tarafından commit `45ae541` üzerinde yapıldı; rapor bu paragraf ve aşağıdaki karşılık tablosu dışında değiştirilmeden duruyor. Bütün bulgular yol haritasına ve öncelik sırasına işlendi.
+
+## Bulguların karşılığı
+
+"Plana eklendi" yeni bir parça, "Plana işlendi" mevcut bir parçanın kapsamına eklenmesi demektir. Parça kodları yol haritasının güncel haline göre tutulur.
+
+| Bulgu | Durum | Yol haritasındaki karşılığı |
+|---|---|---|
+| UU-01 | Plana eklendi | F0.20 Tek seferlik alan adı ve origin planı; F2.09 Korunan Storybook beta ortamı; F2.10 Korunan Storybook RC ortamı ve terfi |
+| UU-02 | Plana eklendi, bir karar bekliyor | F0.20 Tek seferlik alan adı ve origin planı; F1.11 Önizlemenin ayrı origin’e taşınması |
+| UU-03 | Plana işlendi | F2.20 Küratör için sınırlı içe aktarma |
+| UU-04 | Plana işlendi | F1.12 Güvenilmeyen kod için tehdit modeli ve kaynak sınırları |
+| UU-05 | Plana eklendi | F0.23 Talep doğrulaması |
+| UU-06 | Plana işlendi | F2.21 Tohum içerik |
+| UU-07 | Plana işlendi | F0.23 Talep doğrulaması; F2.24 Gizlilik dostu temel ölçüm; F5.07 Pazarlama hunisi ve hedefler |
+| UU-08 | Plana eklendi | F5.06 İlk dış üreticilerin kazanılması |
+| UU-09 | Plana eklendi | F4.18 AI maliyet defteri ve fatura mutabakatı |
+| UU-10 | Plana eklendi | F4.19 Model kataloğu ve emeklilik planı |
+| UU-11 | Plana eklendi | F7.12 İnsan, ajan ve servis kimliklerinin ayrılması |
+| UU-12 | Plana eklendi | F4.17 AI çıktısının şemaya göre kabulü |
+| UU-13 | Plana işlendi | F2.12 Yayın geri alma ve sürüm koruması |
+| UU-14 | Plana işlendi | F1.23 Şema göçü, sunucu dışı yedek ve ilk geri yükleme provası |
+| UU-15 | Plana eklendi | F0.17 Son yeşil sürümün kurulması |
+| UU-16 | Plana eklendi | F0.18 Sağlık ucunun gerçek durumu bildirmesi |
+| UU-17 | Plana eklendi | F0.19 PostgreSQL imajı ve sunucu birimlerinin sürüme bağlanması |
+| UU-18 | Plana eklendi | F0.19 PostgreSQL imajı ve sunucu birimlerinin sürüme bağlanması |
+| UU-19 | Plana işlendi | F2.20 Küratör için sınırlı içe aktarma; F3.13 Genel içe aktarma köprüsü |
+| UU-20 | Plana eklendi | F6.12 Pro kaynağın herkese açık çıktılara girmemesi |
+| UU-21 | Plana eklendi | F6.13 Hesap silmede aboneliğin kapatılması |
+| UU-22 | Plana işlendi | F3.04 Gizlilik bildirimi ve veri yaşam döngüsü |
+| UU-23 | Plana işlendi | F0.15 Karar kayıtlarının uzlaştırılması |
+| UU-24 | Plana eklendi | F0.24 Bağımsız kabul incelemesi |
+| UU-25 | Plana eklendi | F0.22 Hesap ve yayın yetkisinin yedeklenmesi |
 
 ## Yöntem
 

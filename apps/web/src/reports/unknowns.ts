@@ -1,3 +1,4 @@
+import { readHandled } from './handled.ts';
 import { childSections, findSection, parseGrid, parseList, parseParagraphs, parseSections, parseTable, splitLead } from './markdown.ts';
 import type { Finding, FindingsReport, Priority, ReportLink, ReportTable } from './model.ts';
 
@@ -13,11 +14,13 @@ export function unknownsReportFromMarkdown(markdown: string): FindingsReport {
   const sections = parseSections(markdown);
   const lines = (title: string) => findSection(sections, title)?.lines ?? [];
 
+  const handled = readHandled(sections);
   const rows = parseTable(lines('Bulgular'));
   if (rows.length === 0) throw new Error('The unknowns report has no "Bulgular" table.');
 
   const findings: Finding[] = rows.map(row => {
     const { lead, rest } = splitLead(row.get('Bilinmeyen'));
+    const outcome = handled.get(row.get('ID'));
     return {
       id: row.get('ID'),
       priority: row.get('Öncelik') as Priority,
@@ -26,9 +29,10 @@ export function unknownsReportFromMarkdown(markdown: string): FindingsReport {
       body: rest,
       tags: [`Olasılık: ${row.get('Olasılık')}`, row.get('Teknik')].filter(tag => !tag.endsWith(': ') && tag !== ''),
       details: DETAIL_COLUMNS.map(label => ({ label, text: row.get(label) })).filter(detail => detail.text !== ''),
-      resolution: 'open',
-      resolutionNote: '',
-      links: phaseLinks(row.get('İlgili faz'))
+      resolution: outcome?.resolution ?? 'open',
+      resolutionNote: outcome?.note ?? '',
+      // Once an unknown is worked into the plan, point at the parts; until then, at the phases.
+      links: outcome?.links.length ? outcome.links : phaseLinks(row.get('İlgili faz'))
     };
   });
 
