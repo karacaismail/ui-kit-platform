@@ -1,0 +1,15 @@
+{
+  "name": "ui-kit-platform",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev": "pnpm --filter @ui-kit/web dev",
+    "dev:api": "python3 -m uvicorn app.main:app --reload --app-dir apps/api",
+    "storybook": "pnpm --filter @ui-kit/web storybook",
+    "build:storybook": "pnpm --filter @ui-kit/web build:storybook",
+    "build": "pnpm --filter @ui-kit/web build",
+    "check": "pnpm --filter @ui-kit/web check",
+    "test": "pnpm --filter @ui-kit/web test && cd apps/api && python3 -m pytest tests"
+  }
+}

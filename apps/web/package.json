@@ -1,0 +1,27 @@
+{
+  "name": "@ui-kit/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build -o public/storybook",
+    "build": "pnpm build:storybook && astro build",
+    "check": "astro check",
+    "test": "pnpm build && playwright test"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "astro": "7.3.5",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@storybook/addon-a11y": "10.6.1",
+    "@storybook/addon-docs": "10.6.1",
+    "@storybook/html-vite": "10.6.1",
+    "@types/node": "^24.19.0",
+    "storybook": "10.6.1"
+  }
+}

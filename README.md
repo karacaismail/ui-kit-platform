@@ -1,0 +1,75 @@
+# UI Kit platform
+
+Live: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/). Only the static frontend and Storybook are published there; the API is not deployed.
+
+Productionized from the supplied interactive design. The Astro frontend is complete and works without the API. Storybook uses the same production styles. FastAPI and PostgreSQL provide a deliberately small starting boundary for the later backend maturity plan.
+
+## Requirements
+
+- Node.js 24+
+- pnpm 11+
+- Python 3.9+
+- PostgreSQL 17 (optional for the frontend)
+
+## Frontend
+
+```sh
+pnpm install
+pnpm dev
+```
+
+Open `http://localhost:4321`. Storybook development runs separately:
+
+```sh
+pnpm storybook
+```
+
+The production build first creates static Storybook at `/storybook/index.html`, then builds Astro:
+
+```sh
+pnpm build
+```
+
+Set `PUBLIC_SITE_URL` to the final HTTPS origin when building for deployment. Local builds omit the canonical link instead of publishing a placeholder URL.
+
+## GitHub Pages
+
+`.github/workflows/pages.yml` runs on every push to `main`: type check, a build for the Pages path, the Playwright suite against that same output, then publication of `apps/web/dist`.
+
+Project Pages serve the site under `/ui-kit-platform/`, so the workflow sets `PUBLIC_BASE_PATH=/ui-kit-platform`. The page takes its script, stylesheet and Storybook addresses from that value. Leave `PUBLIC_BASE_PATH` unset for a root deployment such as `pen.atonota.net`. To reproduce the Pages build locally:
+
+```sh
+PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform pnpm --filter @ui-kit/web test
+```
+
+No open source license has been chosen yet. Public visibility is not a license.
+
+## API
+
+Create a virtual environment, install `apps/api[dev]`, then run:
+
+```sh
+python3 -m uvicorn app.main:app --reload --app-dir apps/api
+```
+
+OpenAPI is at `http://127.0.0.1:8000/docs`. The frontend does not depend on it yet.
+
+## PostgreSQL on this Mac
+
+The configured container runtime is Colima, not Docker Desktop. With the existing `factory` profile running:
+
+```sh
+DOCKER_HOST=unix:///Users/w6x/.colima/factory/docker.sock docker compose up -d postgres
+```
+
+This project binds PostgreSQL only to `127.0.0.1:55432` and uses a named volume. Do not restart unrelated existing services.
+On the first empty-volume startup, `apps/api/sql/001_initial.sql` creates the single seed table used by the minimal SQLAlchemy model.
+
+## Verification
+
+```sh
+pnpm check
+pnpm test
+```
+
+`pnpm test` builds the frontend, runs the Playwright suite (Chromium, Firefox, WebKit; 320 px to 1440 px) and then the API tests. The test server ignores the `astro preview` lock, so a preview already running on another port is left alone.
