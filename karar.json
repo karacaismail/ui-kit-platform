@@ -1060,6 +1060,15 @@
           "DNS, TLS ve host proxy yapılandırması"
         ]
       }
+    },
+    {
+      "id": 19,
+      "tarih": "2026-10-02",
+      "konu": "Storybook GitHub Pages demosunda yayınlanır",
+      "talimat": {
+        "karar": "Storybook kaldırılmaz; GitHub Pages demosunda site ile birlikte herkese açık yayınlanır.",
+        "etki": "18 numaralı karardaki 'Anonim GitHub Pages derlemesi Storybook içermez' cümlesi geçersizdir. Sunucudaki /storybook/ adresinin Basic Auth koruması değişmedi."
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 # UI Kit platform
 
-Public demo: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/) (static frontend only; no Storybook, no API). Production target: `pen.atonota.net` on the Hetzner host, installed once with `deploy/install.sh` and updated automatically after every green push to `main`. See [docs/DEPLOY.md](docs/DEPLOY.md).
+Public demo: [GitHub Pages](https://karacaismail.github.io/ui-kit-platform/) (static frontend and Storybook; no API). Production target: `pen.atonota.net` on the Hetzner host, installed once with `deploy/install.sh` and updated automatically after every green push to `main`. See [docs/DEPLOY.md](docs/DEPLOY.md).
 
 Productionized from the supplied interactive design. The Astro frontend is complete and works without the API. Storybook uses the same production styles. FastAPI and PostgreSQL provide a deliberately small starting boundary for the later backend maturity plan.
 
@@ -34,14 +34,12 @@ Set `PUBLIC_SITE_URL` to the final HTTPS origin when building for deployment. Lo
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` runs on every push to `main`: a build for the Pages path without Storybook (`PUBLIC_STORYBOOK=off`, because Storybook is not public), the Playwright suite against that same output, then publication of `apps/web/dist`.
+`.github/workflows/pages.yml` runs on every push to `main`: a build for the Pages path, the Playwright suite against that same output, then publication of `apps/web/dist`.
 
 Project Pages serve the site under `/ui-kit-platform/`, so the workflow sets `PUBLIC_BASE_PATH=/ui-kit-platform`. The page takes its script, stylesheet and Storybook addresses from that value. Leave `PUBLIC_BASE_PATH` unset for a root deployment such as `pen.atonota.net`. To reproduce the Pages build locally:
 
 ```sh
-cd apps/web && rm -rf public/storybook
-export PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform PUBLIC_STORYBOOK=off
-pnpm exec astro build && pnpm exec playwright test
+PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform pnpm --filter @ui-kit/web test
 ```
 
 ## CI and deployment

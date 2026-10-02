@@ -2,8 +2,6 @@
 import '../styles/global.css';
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-// Storybook is not public: builds for an anonymous host (GitHub Pages) leave it out.
-const storybookPublished = process.env.PUBLIC_STORYBOOK !== 'off';
 ---
 
 <!doctype html>
@@ -31,7 +29,7 @@ const storybookPublished = process.env.PUBLIC_STORYBOOK !== 'off';
       <nav class="topnav" aria-label="Workspace">
         <a class="active" data-route href="?page=catalog">Components</a>
         <a data-route href="?page=guide">Documentation</a>
-        {storybookPublished && <a href={`${base}storybook/index.html`}>Storybook</a>}
+        <a href={`${base}storybook/index.html`}>Storybook</a>
       </nav>
       <span class="top-spacer"></span>
       <button class="quicksearch" data-action="search" aria-label="Search components, Control or Command K">

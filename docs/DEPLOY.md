@@ -26,7 +26,7 @@ Yığın (`deploy/compose.yaml`):
 
 Storybook'un yayındaki adresi parolalıdır. Parola denetimi `web` container'ının içindedir; host proxy'si atlanıp container portuna gidilse de sorulur. Parola dosyası yoksa `/storybook/` 403 döner.
 
-Sınır: korunan şey yayındaki adrestir, içerik değil. Repo ve GHCR imajları herkese açıktır; `web` imajını çeken kişi Storybook derlemesini imajın içinden okuyabilir (kaynağı zaten public repodadır). İçeriğin de gizli kalması istenirse GHCR paketleri private yapılır ve sunucuya salt okunur bir çekme anahtarı konur; bu, "GitHub'da ve sunucuda secret yok" tasarımını değiştirir ve İsmail Karaca'nın kararıdır.
+Sınır: parola yalnız sunucudaki adresi korur, içeriği değil. Aynı Storybook GitHub Pages demosunda açık yayınlanır (İsmail Karaca'nın 2 Ekim 2026 kararı); repo ve GHCR imajları da herkese açıktır.
 
 ## Görev sahipleri
 
@@ -99,4 +99,4 @@ Geri alınacak commit'in imajı GHCR'de bulunmalıdır (CI'dan geçmiş her `mai
 - Veritabanı yedeği ve geri yükleme provası yoktur. Şu an tabloda uygulama verisi tutulmuyor; veri tutulmaya başlanmadan önce off-host yedek eklenmelidir.
 - Veritabanı şema göçü (migration) aracı yoktur. `apps/api/sql/001_initial.sql` yalnız boş volume'da çalışır.
 - Storybook'tan Pen'e otomatik bileşen aktarımı yoktur. `/api/components` bu aktarımın bağlanacağı uçtur ve şimdilik boş liste döner; site kataloğu statik veriden gelir.
-- GitHub Pages yayını (`karacaismail.github.io/ui-kit-platform`) Storybook'suz herkese açık demodur; API içermez.
+- GitHub Pages yayını (`karacaismail.github.io/ui-kit-platform`) herkese açık demodur; Storybook'u içerir, API içermez.
