@@ -18,6 +18,7 @@ status() {
 
 [ "$(status "$base/")" = 200 ] || fail "the site did not answer 200"
 curl --fail --silent --show-error "$base/" | grep -q 'Component workspace' || fail "the site is not the UI Kit workspace"
+[ "$(status "$base/roadmap/")" = 200 ] || fail "the roadmap page did not answer 200"
 curl --fail --silent --show-error "$base/api/health" | grep -q '"status":"ok"' || fail "the API is not healthy"
 curl --fail --silent --show-error "$base/api/health/database" | grep -q '"status":"ok"' || fail "the API cannot reach PostgreSQL"
 [ "$(status "$base/storybook/index.html")" = 401 ] || fail "Storybook answers without credentials"
