@@ -68,25 +68,26 @@ export function parseParagraphs(lines: string[]): string[] {
   return paragraphs;
 }
 
-export function parseTable(lines: string[]): TableRow[] {
+export function parseGrid(lines: string[]): { columns: string[]; rows: string[][] } {
   const rows = lines.map(line => line.trim()).filter(line => line.startsWith('|'));
-  if (rows.length < 2) return [];
+  if (rows.length < 2) return { columns: [], rows: [] };
   const cells = (row: string) =>
     row
       .replace(/^\|/, '')
       .replace(/(?<!\\)\|$/, '')
       .split(/(?<!\\)\|/)
       .map(cell => cell.trim().replace(/\\\|/g, '|'));
-  const header = cells(rows[0]);
-  return rows.slice(2).map(row => {
-    const values = cells(row);
-    return {
-      get(column: string) {
-        const index = header.findIndex(name => name === column || name.startsWith(`${column} `));
-        return index === -1 ? '' : (values[index] ?? '');
-      }
-    };
-  });
+  return { columns: cells(rows[0]), rows: rows.slice(2).map(cells) };
+}
+
+export function parseTable(lines: string[]): TableRow[] {
+  const { columns, rows } = parseGrid(lines);
+  return rows.map(values => ({
+    get(column: string) {
+      const index = columns.findIndex(name => name === column || name.startsWith(`${column} `));
+      return index === -1 ? '' : (values[index] ?? '');
+    }
+  }));
 }
 
 export function parseInline(text: string): InlineSegment[] {

@@ -1,0 +1,13 @@
+---
+import markdown from '../../../../docs/reports/unknowns-analysis.md?raw';
+import FindingsReport from '../components/FindingsReport.astro';
+import ReportLayout from '../layouts/ReportLayout.astro';
+import { unknownsReportFromMarkdown } from '../reports/unknowns.ts';
+import { FindingsReportViewModel } from '../reports/view-model.ts';
+
+const view = new FindingsReportViewModel(unknownsReportFromMarkdown(markdown));
+---
+
+<ReportLayout title="Bilinmeyen bilinmeyenler" description="Pen projesinin kör noktalarını bulmak için yapılan çok ajanlı bilinmeyen bilinmeyenler analizi." current="unknowns">
+  <FindingsReport view={view} />
+</ReportLayout>

@@ -1,7 +1,17 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { childSections, findSection, parseInline, parseList, parseParagraphs, parseSections, parseTable, splitLead } from './markdown.ts';
+import {
+  childSections,
+  findSection,
+  parseGrid,
+  parseInline,
+  parseList,
+  parseParagraphs,
+  parseSections,
+  parseTable,
+  splitLead
+} from './markdown.ts';
 
 const sample = `# Report
 
@@ -67,6 +77,13 @@ test('reads a pipe table, keeping escaped pipes inside cells', () => {
   assert.equal(rows[0].get('Priority'), 'P0', 'a column is found by the start of its header');
   assert.equal(rows[0].get('Finding'), 'Pipe | inside. Rest.');
   assert.equal(rows[1].get('Missing'), '');
+});
+
+test('reads a pipe table as its header and rows of cells', () => {
+  const grid = parseGrid(findSection(parseSections(sample), 'Findings')!.lines);
+  assert.deepEqual(grid.columns, ['ID', 'Priority (P0/P1)', 'Finding']);
+  assert.deepEqual(grid.rows[1], ['A-02', 'P1', 'Plain']);
+  assert.deepEqual(parseGrid(['no table']), { columns: [], rows: [] });
 });
 
 test('turns backticks into code segments and drops bold markers', () => {

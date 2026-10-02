@@ -92,3 +92,26 @@ test('report pages link to each other', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('GAP analizi');
   await expect(page.getByRole('link', { name: 'GAP analizi' })).toHaveAttribute('aria-current', 'page');
 });
+
+test('unknowns report shows every unknown with its scenarios and early warnings', async ({ page }) => {
+  await page.goto('./unknowns/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Bilinmeyen bilinmeyenler');
+  await expect(page.locator('article.finding')).toHaveCount(25);
+  await expect(page.locator('article.finding').first().locator('.finding-priority')).toHaveText('P0');
+  await expect(page.getByRole('heading', { name: 'Pre-mortem senaryoları' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Erken uyarı göstergeleri' })).toBeVisible();
+  await noSidewaysScroll(page);
+});
+
+test('unknowns filter by area and link to the roadmap phase', async ({ page }) => {
+  await page.goto('./unknowns/');
+  await openFilters(page);
+  await page.getByRole('button', { name: /^İşletim/ }).click();
+  await expect(page).toHaveURL(/group=isletim/);
+  const shown = await page.locator('article.finding:visible').count();
+  expect(shown).toBeGreaterThan(0);
+  expect(shown).toBeLessThan(25);
+
+  await page.locator('#uu-16').getByRole('link', { name: 'F0' }).click();
+  await expect(page).toHaveURL(/roadmap\/#faz-0$/);
+});
