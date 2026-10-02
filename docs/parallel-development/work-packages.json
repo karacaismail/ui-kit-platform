@@ -1,0 +1,1081 @@
+[
+  {
+    "title": "Yayın döngüsünü kurulumdan önce düzelt",
+    "why": "Kurulum bir kez yapılacak. Kurulumdan sonra bulunan bir döngü hatası Hüseyin Cengiz’i sunucuya geri çağırır.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-15",
+      "UU-16",
+      "UU-17",
+      "UU-18"
+    ],
+    "parts": [
+      "Son yeşil sürümün kurulması",
+      "Sağlık ucunun gerçek durumu bildirmesi",
+      "PostgreSQL imajı ve sunucu birimlerinin sürüme bağlanması"
+    ],
+    "tier": "Kritik",
+    "id": "WP-01",
+    "branch": "plan/pen-33-01",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-01",
+    "allowed_paths": [
+      "deploy/update.sh",
+      "apps/api/app/main.py",
+      "deploy/compose.yaml"
+    ],
+    "depends_on": [],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-01.md",
+    "elapsed_seconds": 81,
+    "result": "docs/parallel-development/results/wp-01.md"
+  },
+  {
+    "title": "Bütün adresleri ve yedek hedefini bir kerede iste",
+    "why": "Storybook ve kullanıcı kodu için ayrı origin ile yedek hedefi sonradan istenirse DNS ve sunucu işi tekrarlanır. Kullanıcı kodunun ayrı bir kayıtlı alan adında çalışması oturum çerezini korur.",
+    "owners": [
+      "İsmail Karaca",
+      "Hüseyin Cengiz",
+      "Asistan Hüseyin"
+    ],
+    "sources": [
+      "UU-01",
+      "UU-02",
+      "GAP-18",
+      "GAP-26"
+    ],
+    "parts": [
+      "Tek seferlik alan adı ve origin planı",
+      "Sunucu dışı yedek hedefi"
+    ],
+    "tier": "Kritik",
+    "id": "WP-02",
+    "branch": "plan/pen-33-02",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-02",
+    "allowed_paths": [
+      "docs/DEPLOY.md",
+      "deploy/install.sh"
+    ],
+    "depends_on": [
+      "WP-01"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-02.md",
+    "elapsed_seconds": 95,
+    "result": "docs/parallel-development/results/wp-02.md"
+  },
+  {
+    "title": "Sunucuyu kur ve canlıda kabul et",
+    "why": "Bugün hiçbir şey sunucuda çalışmıyor; otomatik yayın canlıda kanıtlanmadı.",
+    "owners": [
+      "Hüseyin Cengiz",
+      "Asistan Hüseyin"
+    ],
+    "sources": [
+      "GAP-03"
+    ],
+    "parts": [
+      "Sunucuda ilk kurulum, DNS ve TLS"
+    ],
+    "tier": "Kritik",
+    "id": "WP-03",
+    "branch": "plan/pen-33-03",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-03",
+    "allowed_paths": [
+      "docs/DEPLOY.md",
+      "deploy/smoke.sh"
+    ],
+    "depends_on": [
+      "WP-01",
+      "WP-02"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-03.md",
+    "elapsed_seconds": 83,
+    "result": "docs/parallel-development/results/wp-03.md"
+  },
+  {
+    "title": "Talebi mevcut demoyla sına",
+    "why": "MVP’ye kadar F1 ve F2’de 48 parça var. Hedef kullanıcıların bileşeni gerçekten kullanıp kullanmadığı bu yatırımdan önce görülmeli; kurulumla paralel yürür.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-05",
+      "UU-07"
+    ],
+    "parts": [
+      "Talep doğrulaması"
+    ],
+    "tier": "Kritik",
+    "id": "WP-04",
+    "branch": "plan/pen-33-04",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-04",
+    "allowed_paths": [
+      "docs/research/"
+    ],
+    "depends_on": [],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-04.md",
+    "elapsed_seconds": 70,
+    "result": "docs/parallel-development/results/wp-04.md"
+  },
+  {
+    "title": "Tek kişiye bağlılığı kaldır",
+    "why": "Bütün yayın yetkisi tek GitHub hesabında. Hesap kaybında güvenlik düzeltmesi bile yayınlanamaz.",
+    "owners": [
+      "İsmail Karaca",
+      "Hüseyin Cengiz"
+    ],
+    "sources": [
+      "UU-25"
+    ],
+    "parts": [
+      "Hesap ve yayın yetkisinin yedeklenmesi"
+    ],
+    "tier": "Kritik",
+    "id": "WP-05",
+    "branch": "plan/pen-33-05",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-05",
+    "allowed_paths": [
+      "docs/DEPLOY.md"
+    ],
+    "depends_on": [],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-05.md",
+    "elapsed_seconds": 85,
+    "result": "docs/parallel-development/results/wp-05.md"
+  },
+  {
+    "title": "Karar kaydını tek kaynağa indir",
+    "why": "İki karar.json ayrışmış; ajanlar çelişen kararlarla çalışıyor ve geçici yollardaki görsel kanıtlar temiz kopyada kayboluyor.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-01",
+      "UU-23"
+    ],
+    "parts": [
+      "Karar kayıtlarının uzlaştırılması"
+    ],
+    "tier": "Kritik",
+    "id": "WP-06",
+    "branch": "plan/pen-33-06",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-06",
+    "allowed_paths": [
+      "karar.json"
+    ],
+    "depends_on": [],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-06.md",
+    "elapsed_seconds": 88,
+    "result": "docs/parallel-development/results/wp-06.md"
+  },
+  {
+    "title": "Önündeki kararları ver",
+    "why": "Bu kararlar olmadan backend ve önizleme işleri başlayamaz; lisans olmadan dışarıdan katkı ve içerik kabul edilemez.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-16",
+      "GAP-08"
+    ],
+    "parts": [
+      "Açık kaynak lisansının seçilmesi",
+      "Backend olgunluk düzeyi ve yayın alan modeli onayı",
+      "Hafif önizleme katmanı kararı"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-07",
+    "branch": "plan/pen-33-07",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-07",
+    "allowed_paths": [
+      "karar.json",
+      "docs/"
+    ],
+    "depends_on": [
+      "WP-06"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-07.md",
+    "elapsed_seconds": 84,
+    "result": "docs/parallel-development/results/wp-07.md"
+  },
+  {
+    "title": "Kataloğu tek kaynağa taşı",
+    "why": "Katalog bugün elle yazılmış iki dosyada. Her yeni bileşen ve her yayın bu kaynağa dayanacak.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-07"
+    ],
+    "parts": [
+      "Bileşen metadata şeması",
+      "Mevcut 26 bileşenin şemaya taşınması",
+      "Metadata dosyalarının taranmasıyla katalog üretimi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-08",
+    "branch": "plan/pen-33-08",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-08",
+    "allowed_paths": [
+      "apps/web/src/roadmap/",
+      "apps/web/public/"
+    ],
+    "depends_on": [
+      "WP-07"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-08.md",
+    "elapsed_seconds": 104,
+    "result": "docs/parallel-development/results/wp-08.md"
+  },
+  {
+    "title": "Kullanıcı kodunu yalıt",
+    "why": "Dış kullanıcının kodu çalışmaya başlamadan önce kod ayrı alan adında ve kaynak sınırlarıyla çalışmalı.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-15",
+      "UU-02",
+      "UU-04"
+    ],
+    "parts": [
+      "Önizlemenin ayrı origin’e taşınması",
+      "Güvenilmeyen kod için tehdit modeli ve kaynak sınırları"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-09",
+    "branch": "plan/pen-33-09",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-09",
+    "allowed_paths": [
+      "apps/web/public/app.js",
+      "deploy/"
+    ],
+    "depends_on": [
+      "WP-02",
+      "WP-07"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-09.md",
+    "elapsed_seconds": 105,
+    "result": "docs/parallel-development/results/wp-09.md"
+  },
+  {
+    "title": "İlk adaptörü kanıtla",
+    "why": "Adaptör sözleşmesi tek framework’le kanıtlanır, diğerleri aynı sözleşmenin üzerine eklenir. Karar kaydındaki listenin ilki React’tir.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-08"
+    ],
+    "parts": [
+      "Derlenmiş kanonik önizleme",
+      "Framework adaptör sözleşmesi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-10",
+    "branch": "plan/pen-33-10",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-10",
+    "allowed_paths": [
+      "apps/web/src/stories/",
+      "apps/web/public/"
+    ],
+    "depends_on": [
+      "WP-08",
+      "WP-09"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-10.md",
+    "elapsed_seconds": 105,
+    "result": "docs/parallel-development/results/wp-10.md"
+  },
+  {
+    "title": "Veriyi gelmeden önce koru",
+    "why": "İlk kullanıcı verisi yazılmadan önce göç, eski sürümle uyum ve geri yükleme sınanmış olmalı.",
+    "owners": [
+      "İsmail Karaca",
+      "Hüseyin Cengiz"
+    ],
+    "sources": [
+      "GAP-26",
+      "UU-14"
+    ],
+    "parts": [
+      "Şema göçü, sunucu dışı yedek ve ilk geri yükleme provası"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-11",
+    "branch": "plan/pen-33-11",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-11",
+    "allowed_paths": [
+      "apps/api/sql/",
+      "deploy/"
+    ],
+    "depends_on": [
+      "WP-02",
+      "WP-07"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-11.md",
+    "elapsed_seconds": 88,
+    "result": "docs/parallel-development/results/wp-11.md"
+  },
+  {
+    "title": "Storybook’tan Pen’e otomatik yayını kur",
+    "why": "Projenin ana sözü bu: Storybook’ta onaylanan bileşen insan eli değmeden Pen’e geçer.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-17",
+      "GAP-19",
+      "GAP-20",
+      "UU-13"
+    ],
+    "parts": [
+      "Sürümleme temeli",
+      "Bileşen yayın manifesti",
+      "İmzalı artefakt ve köken doğrulaması",
+      "Yayın servisi kimliği ve anahtar rotasyonu",
+      "FastAPI yayın alma ucu",
+      "Kalıcı yayın işi ve worker",
+      "Kataloğun API’den beslenmesi",
+      "RC terfisi ile otomatik Pen yayını",
+      "Yayın geri alma ve sürüm koruması"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-12",
+    "branch": "plan/pen-33-12",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-12",
+    "allowed_paths": [
+      "apps/api/app/",
+      "apps/api/tests/",
+      "deploy/"
+    ],
+    "depends_on": [
+      "WP-07",
+      "WP-08",
+      "WP-11",
+      "WP-13"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-12.md",
+    "elapsed_seconds": 80,
+    "result": "docs/parallel-development/results/wp-12.md"
+  },
+  {
+    "title": "Storybook’u kendi origin’ine al",
+    "why": "Storybook kodu Pen ile aynı origin’de tam yetkiyle çalışıyor; Pen’e oturum ve API eklenmeden önce ayrılmalı.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-01",
+      "GAP-18"
+    ],
+    "parts": [
+      "Korunan Storybook beta ortamı",
+      "Korunan Storybook RC ortamı ve terfi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-13",
+    "branch": "plan/pen-33-13",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-13",
+    "allowed_paths": [
+      "deploy/nginx.conf",
+      "apps/web/.storybook/"
+    ],
+    "depends_on": [
+      "WP-02",
+      "WP-09"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-13.md",
+    "elapsed_seconds": 117,
+    "result": "docs/parallel-development/results/wp-13.md"
+  },
+  {
+    "title": "Yayını görünür yap",
+    "why": "Otomatik yayın sessizce başarısız olursa kimse fark etmez.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-31"
+    ],
+    "parts": [
+      "Asgari gözlemlenebilirlik"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-14",
+    "branch": "plan/pen-33-14",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-14",
+    "allowed_paths": [
+      "deploy/",
+      "docs/DEPLOY.md"
+    ],
+    "depends_on": [
+      "WP-03",
+      "WP-12"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-14.md",
+    "elapsed_seconds": 95,
+    "result": "docs/parallel-development/results/wp-14.md"
+  },
+  {
+    "title": "Adresleri kalıcı hale getir",
+    "why": "Paylaşılan ilk bağlantılar sonradan kırılmamalı; dil ve canonical kuralları adresler yayılmadan konur.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-12",
+      "GAP-13"
+    ],
+    "parts": [
+      "Kalıcı adresler, canonical ve yapılandırılmış veri",
+      "Çok dile hazır route ve içerik sözleşmesi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-15",
+    "branch": "plan/pen-33-15",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-15",
+    "allowed_paths": [
+      "apps/web/src/pages/",
+      "apps/web/astro.config.mjs"
+    ],
+    "depends_on": [
+      "WP-08"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-15.md",
+    "elapsed_seconds": 81,
+    "result": "docs/parallel-development/results/wp-15.md"
+  },
+  {
+    "title": "Kalite kapılarını tamamla",
+    "why": "Vibecoding değişiklikleri hızlı; kapılar eksikse bozulma kullanıcıya ulaşır.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-04",
+      "GAP-05",
+      "GAP-30"
+    ],
+    "parts": [
+      "Görsel regresyon ve axe kapıları",
+      "Frontend lint ve biçim kapısı",
+      "Tarayıcı ve cihaz kabul matrisi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-16",
+    "branch": "plan/pen-33-16",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-16",
+    "allowed_paths": [
+      "apps/web/playwright.config.ts",
+      "apps/web/tests/",
+      ".github/workflows/"
+    ],
+    "depends_on": [
+      "WP-08",
+      "WP-09",
+      "WP-10"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-16.md",
+    "elapsed_seconds": 75,
+    "result": "docs/parallel-development/results/wp-16.md"
+  },
+  {
+    "title": "Bağımsız kabul incelemesini başlat",
+    "why": "Kararı veren, kodu üreten ve yayınlayan aynı kişi; testler aynı kör noktayı paylaşabilir.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-24"
+    ],
+    "parts": [
+      "Bağımsız kabul incelemesi"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-17",
+    "branch": "plan/pen-33-17",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-17",
+    "allowed_paths": [
+      "docs/reviews/"
+    ],
+    "depends_on": [
+      "WP-01"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-17.md",
+    "elapsed_seconds": 82,
+    "result": "docs/parallel-development/results/wp-17.md"
+  },
+  {
+    "title": "Gerçek kullanımı ölç",
+    "why": "Kopyalama başarı değildir; kopyadan sonra kullanıcının projesinde derlenip derlenmediği ölçülür.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-07"
+    ],
+    "parts": [
+      "Gizlilik dostu temel ölçüm"
+    ],
+    "tier": "Olmazsa olmaz",
+    "id": "WP-18",
+    "branch": "plan/pen-33-18",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-18",
+    "allowed_paths": [
+      "apps/web/public/",
+      "apps/api/app/"
+    ],
+    "depends_on": [
+      "WP-04",
+      "WP-08",
+      "WP-11"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-18.md",
+    "elapsed_seconds": 84,
+    "result": "docs/parallel-development/results/wp-18.md"
+  },
+  {
+    "title": "Tohum içeriği kanıtla doldur",
+    "why": "Boş katalog kimseyi tutmaz, kanıtsız 100 bileşen de güven vermez. Önce 20 adaylık pilot, sonra hedef.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-06",
+      "UU-19",
+      "UU-03"
+    ],
+    "parts": [
+      "Bileşen üreteci ve örnek manifesti",
+      "Küratör için sınırlı içe aktarma",
+      "Tohum içerik"
+    ],
+    "tier": "Önemli",
+    "id": "WP-19",
+    "branch": "plan/pen-33-19",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-19",
+    "allowed_paths": [
+      "apps/web/src/",
+      "apps/api/app/"
+    ],
+    "depends_on": [
+      "WP-04",
+      "WP-08"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-19.md",
+    "elapsed_seconds": 96,
+    "result": "docs/parallel-development/results/wp-19.md"
+  },
+  {
+    "title": "Hesap ve görünürlük kararlarını ver",
+    "why": "Kimlik sağlayıcısı ve özel içeriğin hangi planda olduğu seçilmeden hesap işleri başlayamaz.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-37",
+      "GAP-29"
+    ],
+    "parts": [
+      "Kimlik sağlayıcısı ve hesap yaşam döngüsü kararı",
+      "Görünürlük ve plan matrisi kararı"
+    ],
+    "tier": "Önemli",
+    "id": "WP-20",
+    "branch": "plan/pen-33-20",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-20",
+    "allowed_paths": [
+      "karar.json"
+    ],
+    "depends_on": [
+      "WP-07",
+      "WP-06"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-20.md",
+    "elapsed_seconds": 97,
+    "result": "docs/parallel-development/results/wp-20.md"
+  },
+  {
+    "title": "Hukuki zemini kur",
+    "why": "Hesap açılmadan önce hangi verinin tutulduğu, kodun hangi lisansla paylaşıldığı ve nasıl silindiği yazılı olmalı.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-28",
+      "UU-22"
+    ],
+    "parts": [
+      "Gizlilik bildirimi ve veri yaşam döngüsü",
+      "Kullanıcı içeriği lisansı ve kullanım koşulları",
+      "Veri dışa aktarma ve hesap silme"
+    ],
+    "tier": "Önemli",
+    "id": "WP-21",
+    "branch": "plan/pen-33-21",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-21",
+    "allowed_paths": [
+      "docs/",
+      "apps/api/app/"
+    ],
+    "depends_on": [
+      "WP-19",
+      "WP-20"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-21.md",
+    "elapsed_seconds": 79,
+    "result": "docs/parallel-development/results/wp-21.md"
+  },
+  {
+    "title": "Kullanıcı içeriğini güvenle aç",
+    "why": "İlk kullanıcı içeriği herkese açılmadan önce tarama, kaldırma ve yetki kuralları çalışıyor olmalı.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-27"
+    ],
+    "parts": [
+      "Kimlik doğrulama",
+      "Görünürlüğün her uçta zorlanması",
+      "Yayın öncesi zararlı kod taraması",
+      "Bildirme, acil kaldırma ve telif itirazı",
+      "Hız sınırı ve kötüye kullanım koruması"
+    ],
+    "tier": "Önemli",
+    "id": "WP-22",
+    "branch": "plan/pen-33-22",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-22",
+    "allowed_paths": [
+      "apps/api/app/",
+      "apps/api/tests/"
+    ],
+    "depends_on": [
+      "WP-09",
+      "WP-19",
+      "WP-21"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-22.md",
+    "elapsed_seconds": 95,
+    "result": "docs/parallel-development/results/wp-22.md"
+  },
+  {
+    "title": "Kaydet, sürümle ve çatalla",
+    "why": "Vibecoder personasının temel işi: başkasının işinden çatallayıp kendi sürümünü paylaşmak.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-19"
+    ],
+    "parts": [
+      "Kendi snippet’ini kaydetme",
+      "Her kayıtta sürüm geçmişi",
+      "Fork ve soy bilgisi",
+      "Genel içe aktarma köprüsü"
+    ],
+    "tier": "Önemli",
+    "id": "WP-23",
+    "branch": "plan/pen-33-23",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-23",
+    "allowed_paths": [
+      "apps/api/app/",
+      "apps/web/src/"
+    ],
+    "depends_on": [
+      "WP-11",
+      "WP-22",
+      "WP-19"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-23.md",
+    "elapsed_seconds": 99,
+    "result": "docs/parallel-development/results/wp-23.md"
+  },
+  {
+    "title": "Paylaşımı tamamla",
+    "why": "Paylaşılan bağlantı ve gömme, ürünün kendini yaydığı yoldur; pazarlamadan önce çalışmalı.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-21",
+      "GAP-22",
+      "UU-04"
+    ],
+    "parts": [
+      "Kısa paylaşım adresi",
+      "Gömme rotası",
+      "Katalog kartlarında canlı mini önizleme",
+      "Çok dosyalı bileşen",
+      "Dışa aktarım ve anahtarsız playground adaptörleri"
+    ],
+    "tier": "Önemli",
+    "id": "WP-24",
+    "branch": "plan/pen-33-24",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-24",
+    "allowed_paths": [
+      "apps/web/src/",
+      "apps/web/public/"
+    ],
+    "depends_on": [
+      "WP-10",
+      "WP-15",
+      "WP-23"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-24.md",
+    "elapsed_seconds": 109,
+    "result": "docs/parallel-development/results/wp-24.md"
+  },
+  {
+    "title": "AI’yi ölçülü başlat",
+    "why": "İlk AI özelliği kota, ölçüm ve veri politikasıyla birlikte gelir; maliyet gelirden önce büyümez.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-23",
+      "GAP-25"
+    ],
+    "parts": [
+      "AI sağlayıcı ve veri politikası kararı",
+      "Asgari AI geçidi",
+      "İlk AI özelliği: Açıkla"
+    ],
+    "tier": "Önemli",
+    "id": "WP-25",
+    "branch": "plan/pen-33-25",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-25",
+    "allowed_paths": [
+      "apps/api/app/",
+      "apps/api/tests/"
+    ],
+    "depends_on": [
+      "WP-07",
+      "WP-18",
+      "WP-21"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-25.md",
+    "elapsed_seconds": 78,
+    "result": "docs/parallel-development/results/wp-25.md"
+  },
+  {
+    "title": "Ajan kimliğini insan kimliğinden ayır",
+    "why": "MCP köprüsü açılmadan önce bir ajanın kimin adına, hangi yetkiyle çalıştığı kayda geçmeli.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-11"
+    ],
+    "parts": [
+      "İnsan, ajan ve servis kimliklerinin ayrılması",
+      "MCP yayın köprüsü"
+    ],
+    "tier": "Önemli",
+    "id": "WP-26",
+    "branch": "plan/pen-33-26",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-26",
+    "allowed_paths": [
+      "apps/api/app/",
+      "apps/api/tests/"
+    ],
+    "depends_on": [
+      "WP-12",
+      "WP-22",
+      "WP-25",
+      "WP-11"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-26.md",
+    "elapsed_seconds": 91,
+    "result": "docs/parallel-development/results/wp-26.md"
+  },
+  {
+    "title": "Adı ve konumu netleştir",
+    "why": "Sitede “ui / kit”, planda “Pen” geçiyor. Adı belirsiz bir ürün anlatılamaz.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [],
+    "parts": [
+      "Ürün adı ve marka kararı",
+      "Konumlandırma ve rakip karşılaştırması"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-27",
+    "branch": "plan/pen-33-27",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-27",
+    "allowed_paths": [
+      "karar.json",
+      "apps/web/src/"
+    ],
+    "depends_on": [
+      "WP-04",
+      "WP-06"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-27.md",
+    "elapsed_seconds": 97,
+    "result": "docs/parallel-development/results/wp-27.md"
+  },
+  {
+    "title": "Kapıyı aç: tanıtım sayfası ve rehberler",
+    "why": "Ziyaretçi ilk dakikada ne kazanacağını görmeli ve ilk bileşenini tek oturumda projesine alabilmeli.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [],
+    "parts": [
+      "Tanıtım sayfası ve bekleme listesi",
+      "Başlarken ve bileşenini yayınla rehberleri"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-28",
+    "branch": "plan/pen-33-28",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-28",
+    "allowed_paths": [
+      "apps/web/src/pages/"
+    ],
+    "depends_on": [
+      "WP-27",
+      "WP-24"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-28.md",
+    "elapsed_seconds": 154,
+    "result": "docs/parallel-development/results/wp-28.md"
+  },
+  {
+    "title": "Bulunabilir ol",
+    "why": "Arama motorları, sosyal paylaşımlar ve AI ajanları ürünü kendi başına bulabilmeli.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "GAP-13"
+    ],
+    "parts": [
+      "Paylaşım kartları",
+      "Büyüme amaçlı iniş sayfaları",
+      "Ajanlar için makinece okunur çıktı"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-29",
+    "branch": "plan/pen-33-29",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-29",
+    "allowed_paths": [
+      "apps/web/src/pages/",
+      "apps/web/src/"
+    ],
+    "depends_on": [
+      "WP-15",
+      "WP-24",
+      "WP-28"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-29.md",
+    "elapsed_seconds": 88,
+    "result": "docs/parallel-development/results/wp-29.md"
+  },
+  {
+    "title": "Ölç ve hedef koy",
+    "why": "Lansmanın başarısı önceden yazılmış oranlarla değerlendirilir.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-07",
+      "GAP-36"
+    ],
+    "parts": [
+      "Pazarlama hunisi ve hedefler"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-30",
+    "branch": "plan/pen-33-30",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-30",
+    "allowed_paths": [
+      "docs/",
+      "apps/web/src/"
+    ],
+    "depends_on": [
+      "WP-18",
+      "WP-28",
+      "WP-29"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-30.md",
+    "elapsed_seconds": 78,
+    "result": "docs/parallel-development/results/wp-30.md"
+  },
+  {
+    "title": "Üreticileri kazan",
+    "why": "İçerik tek küratöre bağlı kalırsa katalog yaşlanır; dış üreticiler ikinci içeriği kendiliğinden getirmeli.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [
+      "UU-08"
+    ],
+    "parts": [
+      "İlk dış üreticilerin kazanılması",
+      "Topluluk kanalı ve geri bildirim döngüsü"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-31",
+    "branch": "plan/pen-33-31",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-31",
+    "allowed_paths": [
+      "docs/"
+    ],
+    "depends_on": [
+      "WP-21",
+      "WP-23",
+      "WP-28"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-31.md",
+    "elapsed_seconds": 89,
+    "result": "docs/parallel-development/results/wp-31.md"
+  },
+  {
+    "title": "Lanse et",
+    "why": "Hazırlık bittikten sonra tek planla ve ölçerek duyurulur.",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [],
+    "parts": [
+      "Lansman içerik paketi",
+      "Lansman planı ve kanallar"
+    ],
+    "tier": "Pazarlanabilirlik",
+    "id": "WP-32",
+    "branch": "plan/pen-33-32",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-32",
+    "allowed_paths": [
+      "docs/"
+    ],
+    "depends_on": [
+      "WP-28",
+      "WP-29",
+      "WP-30",
+      "WP-31"
+    ],
+    "status": "consolidated_with_codex_overrides",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-32.md",
+    "elapsed_seconds": 85,
+    "result": "docs/parallel-development/results/wp-32.md"
+  },
+  {
+    "id": "WP-33",
+    "title": "Bağımsız plan ve birleştirme incelemesi",
+    "tier": "İnceleme",
+    "owners": [
+      "İsmail Karaca"
+    ],
+    "sources": [],
+    "parts": [],
+    "allowed_paths": [
+      "docs/parallel-development/"
+    ],
+    "depends_on": [
+      "WP-01",
+      "WP-02",
+      "WP-03",
+      "WP-04",
+      "WP-05",
+      "WP-06",
+      "WP-07",
+      "WP-08",
+      "WP-09",
+      "WP-10",
+      "WP-11",
+      "WP-12",
+      "WP-13",
+      "WP-14",
+      "WP-15",
+      "WP-16",
+      "WP-17",
+      "WP-18",
+      "WP-19",
+      "WP-20",
+      "WP-21",
+      "WP-22",
+      "WP-23",
+      "WP-24",
+      "WP-25",
+      "WP-26",
+      "WP-27",
+      "WP-28",
+      "WP-29",
+      "WP-30",
+      "WP-31",
+      "WP-32"
+    ],
+    "branch": "plan/pen-33-33",
+    "worktree": "/Users/w6x/Documents/Codex/2026-09-30/s/work/pen-parallel-planning-33/wp-33",
+    "status": "review_completed_findings_addressed_in_plan",
+    "base_commit": "51df4b1ab4b25eaf61c6eecf1cc97878e1d9be97",
+    "packet": "docs/parallel-development/wp-33.md",
+    "elapsed_seconds": 196,
+    "result": "docs/parallel-development/results/wp-33.md"
+  }
+]
