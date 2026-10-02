@@ -1042,6 +1042,24 @@
           "nihai backend domain şeması"
         ]
       }
+    },
+    {
+      "id": 18,
+      "tarih": "2026-10-02",
+      "konu": "CI/CD, tek seferlik sunucu kurulumu ve otomatik yayın",
+      "talimat": {
+        "hedef": "Hüseyin Cengiz kurulum betiğini Hetzner sunucusunda bir kez çalıştırır; sonrasında İsmail Karaca main dalına gönderdiğinde CI çalışır ve sunucu kendiliğinden güncellenir. Kapsam bununla sınırlıdır.",
+        "ci": "Her push ve pull request'te tip denetimi, lint, tarayıcı testleri ve API testleri çalışır; imajlar derlenir, üretim yığını ayağa kaldırılıp duman testi yapılır. Yalnız bunların tamamı geçen main commit'inin imajları GHCR'ye sha-<commit> etiketiyle gönderilir.",
+        "yayin": "Yayın çekme tabanlıdır: sunucudaki zamanlayıcı main'i izler, imajı bulunan commit'i kurar, sağlıksız sürümde öncekine döner. GitHub'da sunucuya ait secret, SSH adımı veya webhook bulunmaz.",
+        "backend": "FastAPI aynı origin altında /api yolunda PostgreSQL ile birlikte kurulur. Yeni uç eklenmez; /api/components Storybook'tan gelecek bileşen aktarımının bağlanacağı uç olarak kalır ve site kataloğu statik veriden gelmeye devam eder.",
+        "storybook": "Yayındaki Storybook adresi web container'ı içindeki Basic Auth ile korunur. Anonim GitHub Pages derlemesi Storybook içermez. Korunan şey yayındaki adrestir; kaynak ve imaj repo gibi herkese açıktır.",
+        "kapsam_disi": [
+          "veritabanı yedeği",
+          "şema göçü aracı",
+          "Storybook'tan Pen'e otomatik bileşen aktarımı",
+          "DNS, TLS ve host proxy yapılandırması"
+        ]
+      }
     }
   ]
 }

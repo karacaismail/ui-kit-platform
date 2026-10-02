@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # One-time installer for the Pen (UI Kit platform) stack: site, Storybook, FastAPI and PostgreSQL.
-# Target: a Debian host that already runs Docker Engine with the Compose plugin.
+# Target: an x86_64 Debian host that already runs Docker Engine with the Compose plugin.
 #
 #   sudo bash deploy/install.sh
+#   sudo PEN_HTTP_PORT=9000 bash deploy/install.sh     (settings go after sudo, which drops the caller's environment)
 #
 # Running it again is safe: the existing password file, database and settings are kept.
 # It does not touch Docker itself, DNS, TLS, the firewall or the host reverse proxy.
@@ -13,6 +14,8 @@
 #   PEN_ORIGIN          public origin of the site           (default https://pen.atonota.net)
 #   STORYBOOK_USER      Storybook Basic Auth user           (default storybook)
 #   STORYBOOK_PASSWORD  Storybook Basic Auth password       (default: generated and shown once)
+#
+# New Storybook login: delete $PEN_DIR/storybook.htpasswd and run this script again.
 set -euo pipefail
 
 repo_url=https://github.com/karacaismail/ui-kit-platform.git
@@ -32,6 +35,7 @@ main() {
 
   [ "$(id -u)" = 0 ] || die "run as root (sudo)."
   [ "$(uname -s)" = Linux ] || die "this installer targets the Linux server, not a workstation."
+  [ "$(uname -m)" = x86_64 ] || die "the published images are linux/amd64; this host is $(uname -m)."
   command -v systemctl >/dev/null || die "systemd is required."
   docker compose version >/dev/null 2>&1 ||
     die "Docker Engine with the Compose plugin is required. This script does not install or change Docker."
@@ -83,6 +87,8 @@ ENV
     # the directory itself is root-only.
     printf '%s:%s\n' "$user" "$(openssl passwd -apr1 -stdin <<<"$password")" >"$dir/storybook.htpasswd"
     chmod 644 "$dir/storybook.htpasswd"
+    # A running web container still holds the old file through its bind mount.
+    docker compose --project-name pen restart web >/dev/null 2>&1 || true
     if [ -n "$generated" ]; then
       echo
       echo "Storybook login (shown only now; store it in the password manager):"
@@ -100,6 +106,7 @@ After=network-online.target docker.service
 
 [Service]
 Type=oneshot
+TimeoutStartSec=15min
 Environment=PEN_DIR=$dir
 ExecStart=/bin/bash $dir/repo/deploy/update.sh
 UNIT
@@ -115,21 +122,26 @@ OnUnitActiveSec=2min
 WantedBy=timers.target
 UNIT
   systemctl daemon-reload
+
+  # First release before the timer exists, so the two cannot race; on a re-run, wait for a timer run in progress.
+  echo "Deploying the current release..."
+  rm -f "$dir/state/failed"
+  PEN_DIR="$dir" PEN_WAIT_FOR_LOCK=1 bash "$dir/repo/deploy/update.sh" || true
   systemctl enable --now pen-update.timer >/dev/null
 
-  echo "Deploying the current release..."
-  PEN_DIR="$dir" bash "$dir/repo/deploy/update.sh" || true
-
+  echo
   if [ -s "$dir/state/deployed" ]; then
     bash "$dir/repo/deploy/smoke.sh" "http://127.0.0.1:$port"
-    echo
     echo "Installed. Release $(cat "$dir/state/deployed") listens on http://127.0.0.1:$port"
     echo "New pushes to main are deployed automatically once CI passes (pen-update.timer)."
     echo "Remaining one-time step: point the host reverse proxy for $origin at 127.0.0.1:$port (docs/DEPLOY.md)."
+  elif [ -s "$dir/state/failed" ]; then
+    echo "Installed, but release $(cat "$dir/state/failed") did not become healthy and is not retried."
+    echo "Inspect: docker compose --project-name pen logs"
+    echo "Then:    rm $dir/state/failed && systemctl start pen-update.service"
   else
-    echo
-    echo "Installed, but no release is running yet. The timer retries every two minutes."
-    echo "Follow it with: journalctl --unit pen-update --follow"
+    echo "Installed, but no release is running yet (images not published or a pull failed)."
+    echo "The timer retries every two minutes: journalctl --unit pen-update --follow"
   fi
 }
 

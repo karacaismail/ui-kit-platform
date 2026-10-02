@@ -3,15 +3,24 @@
 # pen-update.timer starts this every two minutes. Running it by hand is safe.
 #
 # Pin a release (rollback or freeze): write a commit SHA to $PEN_DIR/pin. Remove the file to follow main again.
+# Retry a release that was marked failed: remove $PEN_DIR/state/failed.
 set -euo pipefail
 
 registry=ghcr.io/karacaismail/ui-kit-platform
 
-release() {
+compose() {
   local dir="$1" repo="$2" commit="$3"
-  git -C "$repo" checkout --quiet --detach "$commit"
-  PEN_IMAGE_TAG="sha-$commit" docker compose --env-file "$dir/.env" --file "$repo/deploy/compose.yaml" \
-    up --detach --wait --remove-orphans
+  shift 3
+  PEN_IMAGE_TAG="sha-$commit" docker compose --env-file "$dir/.env" --file "$repo/deploy/compose.yaml" "$@"
+}
+
+# Used as a condition, where bash ignores errexit, so every step is chained explicitly.
+release() {
+  local dir="$1" repo="$2" commit="$3" port
+  git -C "$repo" checkout --quiet --detach "$commit" || return 1
+  compose "$dir" "$repo" "$commit" up --detach --wait --wait-timeout "${PEN_WAIT_TIMEOUT:-300}" --remove-orphans || return 1
+  port="$(sed -n 's/^PEN_HTTP_PORT=//p' "$dir/.env")" || return 1
+  bash "$repo/deploy/smoke.sh" "http://127.0.0.1:$port" || return 1
 }
 
 # Keeps the running release and the one before it; older images of this project are removed.
@@ -29,11 +38,15 @@ remove_old_images() {
 main() {
   local dir="${PEN_DIR:-/opt/pen}"
   local repo="$dir/repo" state="$dir/state"
-  local target current
+  local target current pull_error
 
   mkdir -p "$state"
   exec 9>"$state/lock"
-  flock --nonblock 9 || exit 0
+  if [ -n "${PEN_WAIT_FOR_LOCK:-}" ]; then
+    flock 9
+  else
+    flock --nonblock 9 || exit 0
+  fi
 
   git -C "$repo" fetch --quiet origin main
   if [ -s "$dir/pin" ]; then
@@ -47,19 +60,29 @@ main() {
 
   current="$(cat "$state/deployed" 2>/dev/null || true)"
   [ "$target" != "$current" ] || exit 0
-  # A release that failed is not retried; the next commit (or a changed pin) is.
+  # A release that came up unhealthy is not retried; the next commit (or a changed pin) is.
   [ "$target" != "$(cat "$state/failed" 2>/dev/null || true)" ] || exit 0
 
   # CI pushes images only after lint, tests and the stack smoke test pass, so a missing image means "not verified".
-  if ! docker pull --quiet "$registry-web:sha-$target" >/dev/null 2>&1 ||
-    ! docker pull --quiet "$registry-api:sha-$target" >/dev/null 2>&1; then
+  # Nothing of an unverified commit is checked out or run.
+  if ! pull_error="$(docker pull --quiet "$registry-web:sha-$target" 2>&1 >/dev/null)" ||
+    ! pull_error="$(docker pull --quiet "$registry-api:sha-$target" 2>&1 >/dev/null)"; then
     if [ "$target" != "$(cat "$state/waiting" 2>/dev/null || true)" ]; then
       echo "$target" >"$state/waiting"
-      echo "Images for $target are not available: CI is still running or failed, or the GHCR packages are not public."
+      echo "Images for $target are not available: CI is still running or failed, or the registry cannot be reached."
+      echo "docker: $pull_error"
     fi
     exit 0
   fi
   rm -f "$state/waiting"
+
+  # The remaining images (PostgreSQL) come from Docker Hub. A failed pull says nothing about the release,
+  # so it is not marked failed and the next run tries again.
+  git -C "$repo" checkout --quiet --detach "$target"
+  if ! compose "$dir" "$repo" "$target" pull --quiet; then
+    echo "Could not pull the stack images for $target; the next run retries." >&2
+    exit 1
+  fi
 
   if release "$dir" "$repo" "$target"; then
     echo "$target" >"$state/deployed"
@@ -73,7 +96,8 @@ main() {
   echo "Release $target did not become healthy." >&2
   if [ -n "$current" ]; then
     echo "Restoring $current" >&2
-    release "$dir" "$repo" "$current" || echo "Restoring $current failed; see: docker compose --project-name pen logs" >&2
+    release "$dir" "$repo" "$current" ||
+      echo "Restoring $current failed; see: docker compose --project-name pen logs" >&2
   fi
   exit 1
 }

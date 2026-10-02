@@ -18,3 +18,9 @@ updates:
     directory: /deploy
     schedule:
       interval: weekly
+    # Node and Python majors are project decisions (README requirements), not routine updates.
+    ignore:
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
+      - dependency-name: python
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]

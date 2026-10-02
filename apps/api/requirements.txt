@@ -1,4 +1,5 @@
-# Pinned runtime dependencies of the API image (Python 3.13). Regenerate after changing pyproject.toml:
+# Pinned runtime dependencies of the API image (Python 3.13). Dependabot updates the pins.
+# Regenerate after changing the dependency list in pyproject.toml:
 #   docker run --rm -v "$PWD/apps/api:/src:ro" python:3.13-slim sh -c 'cp -r /src /tmp/api && cd /tmp/api && pip install -q . && pip freeze --exclude ui-kit-api'
 annotated-doc==0.0.5
 annotated-types==0.8.0

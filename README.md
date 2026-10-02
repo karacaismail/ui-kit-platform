@@ -39,7 +39,9 @@ Set `PUBLIC_SITE_URL` to the final HTTPS origin when building for deployment. Lo
 Project Pages serve the site under `/ui-kit-platform/`, so the workflow sets `PUBLIC_BASE_PATH=/ui-kit-platform`. The page takes its script, stylesheet and Storybook addresses from that value. Leave `PUBLIC_BASE_PATH` unset for a root deployment such as `pen.atonota.net`. To reproduce the Pages build locally:
 
 ```sh
-PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform pnpm --filter @ui-kit/web test
+cd apps/web && rm -rf public/storybook
+export PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform PUBLIC_STORYBOOK=off
+pnpm exec astro build && pnpm exec playwright test
 ```
 
 ## CI and deployment
@@ -49,11 +51,11 @@ PUBLIC_SITE_URL=https://karacaismail.github.io PUBLIC_BASE_PATH=/ui-kit-platform
 | Job | Checks |
 | --- | --- |
 | `web` | `astro check`, production build, Playwright on Chromium, Firefox and WebKit |
-| `api` | `ruff check`, `ruff format --check`, `pytest` on Python 3.13 with the pinned `requirements.lock` |
+| `api` | `ruff check`, `ruff format --check`, `pytest` on Python 3.13 with the pinned `requirements.txt` |
 | `deploy-files` | `shellcheck` on `deploy/*.sh`, `docker compose config` |
 | `images` | builds both images, starts the production stack, runs `deploy/smoke.sh`; on `main` pushes `sha-<commit>` tags to GHCR |
 
-The server follows `main` and deploys a commit only after its images exist, so a red build is never deployed. CodeQL and Dependabot (actions, Python, Docker base images) run alongside. To run the production stack locally:
+The server follows `main` and deploys a commit only after its images exist, so a red build is never deployed. CodeQL and Dependabot run alongside. Dependabot covers GitHub Actions, the pinned Python requirements and the Dockerfile base images; it does not cover the pnpm lockfile or the PostgreSQL image in `deploy/compose.yaml`. To run the production stack locally:
 
 ```sh
 docker build -f deploy/web.Dockerfile -t ghcr.io/karacaismail/ui-kit-platform-web:ci .
@@ -68,7 +70,7 @@ No open source license has been chosen yet. Public visibility is not a license.
 
 ## API
 
-Create a virtual environment, install `-r apps/api/requirements.lock -e "apps/api[dev]"`, then run:
+Create a virtual environment, install `-r apps/api/requirements.txt -e "apps/api[dev]"`, then run:
 
 ```sh
 python3 -m uvicorn app.main:app --reload --app-dir apps/api
