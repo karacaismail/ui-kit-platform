@@ -1,0 +1,15 @@
+# Pen (ui-kit-platform) — https://pen.atonota.net (public). Kaynak: github.com/karacaismail/ui-kit-platform
+# Uygulama yığını /opt/pen altında, kendi deploy/install.sh'ı ile kurulur ve 127.0.0.1:__PEN_PORT__'u açar.
+# /storybook/ parolası uygulamanın kendi nginx'indedir (Basic Auth); burada ek kilit yok.
+pen.atonota.net {
+	bind {$PUBLIC_IP}
+	import tls_dns
+	import common pen.atonota.net
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+	}
+
+	reverse_proxy 127.0.0.1:__PEN_PORT__
+}
