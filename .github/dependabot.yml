@@ -11,6 +11,9 @@ updates:
     directory: /apps/api
     schedule:
       interval: weekly
+    # pydantic pins an exact pydantic-core; bumping it alone breaks the install (PR #4).
+    ignore:
+      - dependency-name: pydantic-core
     groups:
       python:
         patterns: ["*"]
